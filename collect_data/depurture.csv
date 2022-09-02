@@ -1,1 +1,108 @@
-flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken
+flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken6755,false,false,8,6,Ryanair,Hungary,Israel,,,,slightly late,active,2.9.2022 16:25:00,2.9.2022 12:55:00,2.9.2022 16:35:00,2.9.2022 13:11:00,https://airlabs.co/,02-09-2022  16:47:54459,false,false,8,6,Aegean Airlines,Greece,Israel,,,,very late,landed,2.9.2022 13:00:00,2.9.2022 11:05:00,2.9.2022 14:24:00,2.9.2022 12:44:00,https://airlabs.co/,02-09-2022  16:51:46
+8253,false,false,8,6,Air Serbia,Turkey,Israel,,,,,landed,2.9.2022 12:50:00,2.9.2022 10:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7709,false,false,8,6,Turkish Airlines,Turkey,Israel,,,,,landed,2.9.2022 12:15:00,2.9.2022 10:20:00,2.9.2022 13:15:00,,https://airlabs.co/,02-09-2022  16:51:46
+7709,false,false,8,6,SunExpress,Turkey,Israel,,,,,landed,2.9.2022 12:15:00,2.9.2022 10:20:00,2.9.2022 13:15:00,,https://airlabs.co/,02-09-2022  16:51:46
+7166,false,false,8,6,Brussels Airlines,Germany,Israel,,,,,cancelled,2.9.2022 11:15:00,2.9.2022 7:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1532,false,false,8,6,Tus Airways,Cyprus,Israel,,,,,landed,2.9.2022 11:50:00,2.9.2022 10:40:00,2.9.2022 12:15:00,,https://airlabs.co/,02-09-2022  16:51:46
+2370,false,false,8,6,Emirates,United Arab Emirates,Israel,,,,,landed,2.9.2022 14:20:00,2.9.2022 11:00:00,2.9.2022 14:47:00,,https://airlabs.co/,02-09-2022  16:51:46
+8395,false,false,8,6,American Airlines,United Kingdom,Israel,,,,ok,landed,2.9.2022 15:35:00,2.9.2022 10:10:00,2.9.2022 15:05:00,2.9.2022 10:11:00,https://airlabs.co/,02-09-2022  16:51:46
+315,false,false,8,6,EL AL Israel Airlines,United Kingdom,Israel,,,,ok,landed,2.9.2022 15:35:00,2.9.2022 10:10:00,2.9.2022 15:05:00,2.9.2022 10:11:00,https://airlabs.co/,02-09-2022  16:51:46
+683,false,false,8,6,Lufthansa,Germany,Israel,,,,,cancelled,2.9.2022 11:15:00,2.9.2022 7:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9470,false,false,8,6,United Airlines,Germany,Israel,,,,,cancelled,2.9.2022 11:15:00,2.9.2022 7:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+785,false,false,8,6,Turkish Airlines,Turkey,Israel,,,,,landed,2.9.2022 12:50:00,2.9.2022 10:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+26,false,false,8,6,Red Wings Airlines,Russia,Israel,,,,,landed,2.9.2022 14:45:00,2.9.2022 11:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1550,false,false,8,6,Flydubai,United Arab Emirates,Israel,,,,,landed,2.9.2022 14:20:00,2.9.2022 11:00:00,2.9.2022 14:47:00,,https://airlabs.co/,02-09-2022  16:51:46
+5225,false,false,8,6,Blue Bird Airways,Greece,Israel,,,,,scheduled,2.9.2022 14:00:00,2.9.2022 12:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1701,false,false,8,6,Ryanair,Cyprus,Israel,,,,slightly late,landed,2.9.2022 12:25:00,2.9.2022 11:15:00,2.9.2022 12:42:00,2.9.2022 11:42:00,https://airlabs.co/,02-09-2022  16:51:46
+7863,false,false,8,6,Aeromexico,United Kingdom,Israel,,,,ok,landed,2.9.2022 15:35:00,2.9.2022 10:10:00,2.9.2022 15:05:00,2.9.2022 10:11:00,https://airlabs.co/,02-09-2022  16:51:46
+2326,false,false,8,6,Wizz Air,Hungary,Israel,,,,slightly late,landed,2.9.2022 14:35:00,2.9.2022 10:55:00,2.9.2022 14:43:00,2.9.2022 11:35:00,https://airlabs.co/,02-09-2022  16:51:46
+796,false,false,8,6,Pegasus,Turkey,Israel,,,,,landed,2.9.2022 13:25:00,2.9.2022 11:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2837,false,false,8,6,Ryanair,Lithuania,Israel,,,,very late,active,2.9.2022 16:10:00,2.9.2022 11:25:00,2.9.2022 17:35:00,2.9.2022 12:50:00,https://airlabs.co/,02-09-2022  16:51:46
+9251,false,false,8,6,EL AL Israel Airlines,Poland,Israel,,,,slightly late,landed,2.9.2022 15:20:00,2.9.2022 11:15:00,2.9.2022 15:30:00,2.9.2022 11:51:00,https://airlabs.co/,02-09-2022  16:51:46
+5035,false,false,8,6,Blue Bird Airways,Greece,Israel,,,,,scheduled,2.9.2022 13:15:00,2.9.2022 11:40:00,,,https://airlabs.co/,02-09-2022  16:51:46
+599,false,false,8,6,Etihad,United Arab Emirates,Israel,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 14:30:00,2.9.2022 18:30:00,2.9.2022 15:21:00,https://airlabs.co/,02-09-2022  16:51:46
+81,false,false,8,6,Air Canada,Canada,Israel,,,,slightly late,active,2.9.2022 23:25:00,2.9.2022 11:45:00,2.9.2022 23:22:00,2.9.2022 12:20:00,https://airlabs.co/,02-09-2022  16:51:46
+5456,false,false,8,6,Wizz Air,Italy,Israel,,,,slightly late,landed,2.9.2022 15:30:00,2.9.2022 11:40:00,2.9.2022 16:28:00,2.9.2022 12:36:00,https://airlabs.co/,02-09-2022  16:51:46
+3461,false,false,8,6,Transavia France,France,Israel,,,,slightly late,active,2.9.2022 17:05:00,2.9.2022 12:30:00,2.9.2022 17:36:00,2.9.2022 13:01:00,https://airlabs.co/,02-09-2022  16:51:46
+7669,false,false,8,6,Turkish Airlines,Turkey,Israel,,,,,landed,2.9.2022 12:45:00,2.9.2022 11:15:00,2.9.2022 15:07:00,,https://airlabs.co/,02-09-2022  16:51:46
+156,false,false,8,6,LOT - Polish Airlines,Poland,Israel,,,,slightly late,landed,2.9.2022 15:20:00,2.9.2022 11:15:00,2.9.2022 15:30:00,2.9.2022 11:51:00,https://airlabs.co/,02-09-2022  16:51:46
+8199,false,false,8,6,,Canada,Israel,,,,slightly late,active,2.9.2022 23:25:00,2.9.2022 11:45:00,2.9.2022 23:22:00,2.9.2022 12:20:00,https://airlabs.co/,02-09-2022  16:51:46
+6755,false,false,8,6,,Hungary,Israel,,,,slightly late,landed,2.9.2022 16:25:00,2.9.2022 12:55:00,2.9.2022 16:23:00,2.9.2022 13:11:00,https://airlabs.co/,02-09-2022  16:51:46
+7379,false,false,8,6,,Italy,Israel,,,,ok,active,2.9.2022 19:00:00,2.9.2022 15:15:00,2.9.2022 19:08:00,2.9.2022 15:27:00,https://airlabs.co/,02-09-2022  16:51:46
+1560,false,false,8,6,,Poland,Israel,,,,slightly late,landed,2.9.2022 15:55:00,2.9.2022 11:55:00,2.9.2022 16:35:00,2.9.2022 12:40:00,https://airlabs.co/,02-09-2022  16:51:46
+7162,false,false,8,6,,Austria,Israel,,,,slightly late,landed,2.9.2022 16:00:00,2.9.2022 12:10:00,2.9.2022 16:19:00,2.9.2022 12:52:00,https://airlabs.co/,02-09-2022  16:51:46
+2364,false,false,8,6,,United Arab Emirates,Israel,,,,,active,2.9.2022 16:45:00,2.9.2022 13:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7091,false,false,8,6,,Italy,Israel,,,,slightly late,active,2.9.2022 16:25:00,2.9.2022 12:40:00,2.9.2022 17:15:00,2.9.2022 13:15:00,https://airlabs.co/,02-09-2022  16:51:46
+7892,false,false,8,6,,France,Israel,,,,ok,active,2.9.2022 18:30:00,2.9.2022 13:30:00,,2.9.2022 13:28:00,https://airlabs.co/,02-09-2022  16:51:46
+5390,false,false,8,6,,Germany,Israel,,,,slightly late,active,2.9.2022 17:55:00,2.9.2022 13:45:00,2.9.2022 18:40:00,2.9.2022 14:30:00,https://airlabs.co/,02-09-2022  16:51:46
+1210,false,false,8,6,,United Arab Emirates,Israel,,,,,active,2.9.2022 16:45:00,2.9.2022 13:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2837,false,false,8,6,Royal Air Force (R.A.F.),Lithuania,Israel,,,,very late,active,2.9.2022 16:10:00,2.9.2022 11:25:00,2.9.2022 17:35:00,2.9.2022 12:50:00,https://airlabs.co/,02-09-2022  16:51:46
+85,false,false,8,6,,United States,Israel,,,,,active,3.9.2022 0:00:00,2.9.2022 12:00:00,2.9.2022 23:35:00,,https://airlabs.co/,02-09-2022  16:51:46
+795,false,false,8,6,,Turkey,Israel,,,,,scheduled,2.9.2022 16:35:00,2.9.2022 14:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8266,false,false,8,6,,Turkey,Israel,,,,,scheduled,2.9.2022 16:35:00,2.9.2022 14:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+391,false,false,8,6,,Spain,Israel,,,,ok,active,2.9.2022 19:05:00,2.9.2022 14:25:00,2.9.2022 19:07:00,2.9.2022 14:28:00,https://airlabs.co/,02-09-2022  16:51:46
+830,false,false,8,6,Ural Airlines,Russia,Israel,,,,,cancelled,2.9.2022 13:50:00,2.9.2022 11:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+343,false,false,8,6,,Switzerland,Israel,,,,ok,active,2.9.2022 18:10:00,2.9.2022 13:50:00,2.9.2022 18:16:00,2.9.2022 13:56:00,https://airlabs.co/,02-09-2022  16:51:46
+8288,false,false,8,6,,Italy,Israel,,,,slightly late,landed,2.9.2022 15:35:00,2.9.2022 11:45:00,2.9.2022 15:57:00,2.9.2022 12:24:00,https://airlabs.co/,02-09-2022  16:51:46
+7091,false,false,8,6,,Italy,Israel,,,,slightly late,active,2.9.2022 16:25:00,2.9.2022 12:40:00,2.9.2022 17:15:00,2.9.2022 13:15:00,https://airlabs.co/,02-09-2022  16:51:46
+6755,false,false,8,6,,Hungary,Israel,,,,slightly late,landed,2.9.2022 16:25:00,2.9.2022 12:55:00,2.9.2022 16:23:00,2.9.2022 13:11:00,https://airlabs.co/,02-09-2022  16:51:46
+1526,false,false,8,6,,Switzerland,Israel,,,,slightly late,active,2.9.2022 17:40:00,2.9.2022 13:05:00,2.9.2022 17:56:00,2.9.2022 13:35:00,https://airlabs.co/,02-09-2022  16:51:46
+3451,false,false,8,6,,France,Israel,,,,very late,active,2.9.2022 18:35:00,2.9.2022 13:35:00,,2.9.2022 14:50:00,https://airlabs.co/,02-09-2022  16:51:46
+7934,false,false,8,6,,Netherlands,Israel,,,,ok,active,2.9.2022 19:20:00,2.9.2022 14:20:00,2.9.2022 20:03:00,2.9.2022 14:31:00,https://airlabs.co/,02-09-2022  16:51:46
+9601,false,false,8,6,,United Arab Emirates,Israel,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 14:30:00,2.9.2022 18:30:00,2.9.2022 15:21:00,https://airlabs.co/,02-09-2022  16:51:46
+2390,false,false,8,6,,Spain,,,,,ok,active,2.9.2022 19:05:00,2.9.2022 14:25:00,2.9.2022 19:07:00,2.9.2022 14:28:00,https://airlabs.co/,02-09-2022  16:51:46
+5390,false,false,8,6,,Germany,,,,,slightly late,active,2.9.2022 17:55:00,2.9.2022 13:45:00,2.9.2022 18:40:00,2.9.2022 14:30:00,https://airlabs.co/,02-09-2022  16:51:46
+5832,false,false,8,6,,Germany,,,,,ok,active,2.9.2022 18:45:00,2.9.2022 14:10:00,2.9.2022 18:31:00,2.9.2022 14:19:00,https://airlabs.co/,02-09-2022  16:51:46
+752,false,false,8,6,,,Israel,,,,,scheduled,2.9.2022 16:35:00,2.9.2022 14:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+243,false,false,8,6,,Stati Uniti,Israel,,,,ok,active,2.9.2022 23:40:00,2.9.2022 11:50:00,2.9.2022 23:24:00,2.9.2022 11:51:00,https://airlabs.co/,02-09-2022  16:51:46
+327,false,false,8,6,,France,,,,,ok,active,2.9.2022 18:30:00,2.9.2022 13:30:00,,2.9.2022 13:28:00,https://airlabs.co/,02-09-2022  16:51:46
+387,false,false,8,6,,Italy,,,,,ok,active,2.9.2022 18:40:00,2.9.2022 14:30:00,,2.9.2022 14:34:00,https://airlabs.co/,02-09-2022  16:51:46
+103,false,false,8,6,,,,,,,,landed,2.9.2022 15:45:00,2.9.2022 14:45:00,2.9.2022 16:25:00,,https://airlabs.co/,02-09-2022  16:51:46
+2084,false,false,8,6,,,,,,,slightly late,active,2.9.2022 20:40:00,2.9.2022 15:15:00,2.9.2022 20:59:00,2.9.2022 15:58:00,https://airlabs.co/,02-09-2022  16:51:46
+513,false,false,8,6,,,,,,,,active,2.9.2022 19:55:00,2.9.2022 14:50:00,2.9.2022 20:04:00,,https://airlabs.co/,02-09-2022  16:51:46
+8900,false,false,8,6,,,,,,,slightly late,active,2.9.2022 18:30:00,2.9.2022 14:50:00,,2.9.2022 15:08:00,https://airlabs.co/,02-09-2022  16:51:46
+1808,false,false,8,7,,,,,,,,scheduled,3.9.2022 3:55:00,3.9.2022 0:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1534,false,false,8,6,,,,,,,,scheduled,2.9.2022 19:55:00,2.9.2022 17:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+383,false,false,8,6,,,,,,,slightly late,active,2.9.2022 18:30:00,2.9.2022 14:50:00,,2.9.2022 15:08:00,https://airlabs.co/,02-09-2022  16:51:46
+963,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:15:00,2.9.2022 16:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+6803,false,false,8,6,,,,,,,slightly late,active,2.9.2022 21:20:00,2.9.2022 16:05:00,2.9.2022 21:10:00,2.9.2022 16:24:00,https://airlabs.co/,02-09-2022  16:51:46
+2431,false,false,8,6,,,,,,,slightly late,active,2.9.2022 16:55:00,2.9.2022 15:50:00,,2.9.2022 16:09:00,https://airlabs.co/,02-09-2022  16:51:46
+1302,false,false,8,6,,,Israel,,,,slightly late,active,2.9.2022 21:20:00,2.9.2022 16:05:00,2.9.2022 21:10:00,2.9.2022 16:24:00,https://airlabs.co/,02-09-2022  16:51:46
+7028,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:55:00,2.9.2022 16:40:00,2.9.2022 21:50:00,,https://airlabs.co/,02-09-2022  16:51:46
+164,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:55:00,2.9.2022 16:40:00,2.9.2022 21:50:00,,https://airlabs.co/,02-09-2022  16:51:46
+7174,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:00:00,2.9.2022 16:30:00,2.9.2022 20:58:00,2.9.2022 16:45:00,https://airlabs.co/,02-09-2022  16:51:46
+9123,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:00:00,2.9.2022 16:30:00,2.9.2022 20:58:00,2.9.2022 16:45:00,https://airlabs.co/,02-09-2022  16:51:46
+7086,false,false,8,6,,,,,,,,scheduled,3.9.2022 3:05:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+687,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:00:00,2.9.2022 16:30:00,2.9.2022 20:58:00,2.9.2022 16:45:00,https://airlabs.co/,02-09-2022  16:51:46
+862,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:20:00,2.9.2022 17:35:00,2.9.2022 21:31:00,2.9.2022 18:00:00,https://airlabs.co/,02-09-2022  16:51:46
+787,false,false,8,6,,,,,,,,scheduled,2.9.2022 19:00:00,2.9.2022 16:40:00,,,https://airlabs.co/,02-09-2022  16:51:46
+681,false,false,8,6,,,Israel,,,,,cancelled,2.9.2022 20:50:00,2.9.2022 16:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+932,false,false,8,6,,,Israel,,,,,scheduled,2.9.2022 20:05:00,2.9.2022 17:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7172,false,false,8,6,,,,,,,,cancelled,2.9.2022 20:50:00,2.9.2022 16:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+543,false,false,8,6,,Greece,Israel,,,,slightly late,active,2.9.2022 16:55:00,2.9.2022 14:45:00,,2.9.2022 15:40:00,https://airlabs.co/,02-09-2022  16:51:46
+141,false,false,8,7,,,,,,,,scheduled,3.9.2022 13:15:00,3.9.2022 0:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+955,false,false,8,7,,,,,,,,scheduled,3.9.2022 16:00:00,3.9.2022 0:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+791,false,false,8,7,,,,,,,,scheduled,3.9.2022 3:10:00,3.9.2022 0:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+253,false,false,8,6,,,,,,,,scheduled,2.9.2022 21:35:00,2.9.2022 17:15:00,2.9.2022 21:45:00,2.9.2022 17:30:00,https://airlabs.co/,02-09-2022  16:51:46
+925,false,false,8,6,,,Israel,,,,,scheduled,2.9.2022 20:00:00,2.9.2022 17:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+778,false,false,8,6,,,Israel,,,,,scheduled,2.9.2022 20:10:00,2.9.2022 17:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+807,false,false,8,6,,,,,,,ok,active,2.9.2022 19:00:00,2.9.2022 15:15:00,2.9.2022 19:08:00,2.9.2022 15:27:00,https://airlabs.co/,02-09-2022  16:51:46
+858,false,false,8,6,,,Israel,,,,slightly late,active,2.9.2022 19:20:00,2.9.2022 15:35:00,2.9.2022 20:04:00,2.9.2022 16:27:00,https://airlabs.co/,02-09-2022  16:51:46
+888,false,false,8,6,,,,,,,,scheduled,2.9.2022 20:00:00,2.9.2022 17:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5526,false,false,8,6,,,,,,,,scheduled,2.9.2022 20:25:00,2.9.2022 17:50:00,2.9.2022 20:40:00,2.9.2022 18:05:00,https://airlabs.co/,02-09-2022  16:51:46
+3738,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 17:55:00,2.9.2022 23:10:00,2.9.2022 18:15:00,https://airlabs.co/,02-09-2022  16:51:46
+91,false,false,8,6,,,,,,,,scheduled,3.9.2022 11:10:00,2.9.2022 23:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1980,false,false,8,6,,,,,,,,scheduled,3.9.2022 4:30:00,2.9.2022 23:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+235,false,false,8,6,,,,,,,,scheduled,3.9.2022 12:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2368,false,false,8,6,,,,,,,,scheduled,3.9.2022 3:20:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1628,false,false,8,6,,,,,,,,scheduled,3.9.2022 3:20:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+345,false,false,8,6,,,,,,,,scheduled,3.9.2022 0:40:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2346,false,false,8,7,,,,,,,,scheduled,3.9.2022 3:55:00,3.9.2022 0:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+145,false,false,8,7,,,,,,,,scheduled,3.9.2022 13:05:00,3.9.2022 0:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+4497,false,false,8,7,,,,,,,,scheduled,3.9.2022 13:05:00,3.9.2022 0:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8256,false,false,8,7,,,,,,,,scheduled,3.9.2022 3:10:00,3.9.2022 0:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+405,false,false,8,7,,,,,,,,scheduled,3.9.2022 5:20:00,3.9.2022 1:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8807,false,false,8,7,,,,,,,,scheduled,3.9.2022 5:20:00,3.9.2022 1:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9109,false,false,8,7,,,,,,,,scheduled,3.9.2022 11:40:00,3.9.2022 5:40:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1604,false,false,8,7,,,,,,,,scheduled,3.9.2022 11:40:00,3.9.2022 5:40:00,,,https://airlabs.co/,02-09-2022  16:51:46
+784,false,false,8,6,,Turkey,,,,,,scheduled,2.9.2022 18:30:00,2.9.2022 16:15:00,,,https://airlabs.co/,02-09-2022  16:51:46

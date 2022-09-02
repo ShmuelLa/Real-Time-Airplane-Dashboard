@@ -1,1 +1,140 @@
-flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken
+flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken801,false,false,8,6,,,Greece,,,,,landed,2.9.2022 13:20:00,2.9.2022 11:40:00,,2.9.2022 12:05:00,https://airlabs.co/,02-09-2022  16:47:547698,false,false,8,6,Aeromexico,Israel,United Kingdom,,,,,scheduled,3.9.2022 4:45:00,2.9.2022 23:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5937,false,false,8,6,Delta Air Lines,Israel,United Kingdom,,,,,scheduled,3.9.2022 4:45:00,2.9.2022 23:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9575,false,false,8,6,,Israel,Netherlands,,,,,scheduled,3.9.2022 2:35:00,2.9.2022 22:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+787,false,false,8,7,,Israel,Turkey,,,,,scheduled,3.9.2022 2:05:00,3.9.2022 0:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8425,false,false,8,6,,Israel,Netherlands,,,,,scheduled,3.9.2022 2:35:00,2.9.2022 22:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7622,false,false,8,6,,Israel,Greece,,,,,scheduled,3.9.2022 2:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+404,false,false,8,6,,Israel,Ethiopia,,,,,scheduled,3.9.2022 4:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1461,false,false,8,6,,Israel,Netherlands,,,,,scheduled,3.9.2022 2:35:00,2.9.2022 22:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+461,false,false,8,6,,Israel,Netherlands,,,,,scheduled,3.9.2022 2:35:00,2.9.2022 22:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+810,false,false,8,7,,Israel,Turkey,,,,,scheduled,3.9.2022 2:10:00,3.9.2022 0:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+256,false,false,8,6,,Israel,Switzerland,,,,,scheduled,3.9.2022 3:35:00,2.9.2022 23:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+348,false,false,8,6,,Israel,Switzerland,,,,,active,2.9.2022 16:25:00,2.9.2022 12:30:00,,2.9.2022 13:57:00,https://airlabs.co/,02-09-2022  16:51:46
+151,false,false,8,6,,Israel,Poland,,,,,scheduled,3.9.2022 3:45:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7782,false,false,8,7,,Israel,Turkey,,,,,scheduled,3.9.2022 3:30:00,3.9.2022 2:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8396,false,false,8,6,,Israel,Spain,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 18:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8394,false,false,8,6,,Israel,Switzerland,,,,,active,2.9.2022 16:25:00,2.9.2022 12:30:00,,2.9.2022 13:57:00,https://airlabs.co/,02-09-2022  16:51:46
+1772,false,false,8,7,,Israel,,,,,,scheduled,3.9.2022 3:50:00,3.9.2022 0:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8804,false,false,8,6,,Israel,,,,,,scheduled,3.9.2022 4:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+792,false,false,8,7,,Israel,,,,,,scheduled,3.9.2022 3:30:00,3.9.2022 1:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+810,false,false,8,7,,Israel,,,,,,scheduled,3.9.2022 3:50:00,3.9.2022 0:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9020,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:25:00,2.9.2022 11:20:00,2.9.2022 15:42:00,2.9.2022 11:37:00,https://airlabs.co/,02-09-2022  16:51:46
+5459,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:25:00,2.9.2022 11:20:00,2.9.2022 15:42:00,2.9.2022 11:37:00,https://airlabs.co/,02-09-2022  16:51:46
+783,false,false,8,6,,,,,,,,landed,2.9.2022 15:15:00,2.9.2022 13:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9120,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:25:00,2.9.2022 11:20:00,2.9.2022 15:42:00,2.9.2022 11:37:00,https://airlabs.co/,02-09-2022  16:51:46
+7173,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:25:00,2.9.2022 11:20:00,2.9.2022 15:42:00,2.9.2022 11:37:00,https://airlabs.co/,02-09-2022  16:51:46
+686,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:25:00,2.9.2022 11:20:00,2.9.2022 15:42:00,2.9.2022 11:37:00,https://airlabs.co/,02-09-2022  16:51:46
+336,false,false,8,6,,,,,,,,landed,2.9.2022 15:25:00,2.9.2022 12:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+336,false,false,8,6,,,Italy,,,,,landed,2.9.2022 15:25:00,2.9.2022 12:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7171,false,false,8,6,,,,,,,,cancelled,2.9.2022 15:45:00,2.9.2022 12:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2522,false,false,8,6,,,,,,,,landed,2.9.2022 15:50:00,2.9.2022 12:05:00,,2.9.2022 12:20:00,https://airlabs.co/,02-09-2022  16:51:46
+786,false,false,8,6,,,,,,,,active,2.9.2022 15:45:00,2.9.2022 13:40:00,,2.9.2022 14:34:00,https://airlabs.co/,02-09-2022  16:51:46
+9471,false,false,8,6,,,,,,,,cancelled,2.9.2022 15:45:00,2.9.2022 12:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+680,false,false,8,6,,,Germany,,,,,cancelled,2.9.2022 15:45:00,2.9.2022 12:05:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7933,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 13:15:00,2.9.2022 8:35:00,2.9.2022 13:36:00,2.9.2022 8:57:00,https://airlabs.co/,02-09-2022  16:51:46
+8384,false,false,8,6,,,,,,,,active,2.9.2022 16:05:00,2.9.2022 11:55:00,,2.9.2022 12:20:00,https://airlabs.co/,02-09-2022  16:51:46
+2372,false,false,8,6,,,,,,,ok,landed,2.9.2022 16:00:00,2.9.2022 11:55:00,2.9.2022 16:14:00,2.9.2022 12:05:00,https://airlabs.co/,02-09-2022  16:51:46
+2393,false,false,8,6,,,,,,,,landed,2.9.2022 15:55:00,2.9.2022 11:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+358,false,false,8,6,,,Germany,,,,,active,2.9.2022 16:05:00,2.9.2022 11:55:00,,2.9.2022 12:20:00,https://airlabs.co/,02-09-2022  16:51:46
+8457,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:40:00,2.9.2022 10:20:00,2.9.2022 14:41:00,2.9.2022 10:31:00,https://airlabs.co/,02-09-2022  16:51:46
+5036,false,false,8,6,,,,,,,,scheduled,2.9.2022 15:45:00,2.9.2022 14:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5226,false,false,8,6,,,,,,,,scheduled,2.9.2022 16:40:00,2.9.2022 15:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+252,false,false,8,6,,,,,,,slightly late,active,2.9.2022 16:15:00,2.9.2022 12:25:00,2.9.2022 16:35:00,2.9.2022 12:51:00,https://airlabs.co/,02-09-2022  16:51:46
+861,false,false,8,6,,,,,,,slightly late,active,2.9.2022 16:10:00,2.9.2022 13:20:00,2.9.2022 16:56:00,2.9.2022 13:25:00,https://airlabs.co/,02-09-2022  16:51:46
+386,false,false,8,6,,,Italy,,,,,landed,2.9.2022 16:40:00,2.9.2022 13:15:00,,2.9.2022 13:16:00,https://airlabs.co/,02-09-2022  16:51:46
+90,false,false,8,6,,,United States,,,,ok,landed,2.9.2022 16:20:00,2.9.2022 5:55:00,2.9.2022 16:26:00,2.9.2022 5:53:00,https://airlabs.co/,02-09-2022  16:51:46
+8390,false,false,8,6,,,,,,,,landed,2.9.2022 15:55:00,2.9.2022 11:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+394,false,false,8,6,,,Spain,,,,,landed,2.9.2022 15:55:00,2.9.2022 11:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5831,false,false,8,6,,,,,,,,landed,2.9.2022 13:15:00,2.9.2022 9:00:00,2.9.2022 13:09:00,2.9.2022 8:59:00,https://airlabs.co/,02-09-2022  16:51:46
+574,false,false,8,6,,,,,,,,landed,2.9.2022 13:20:00,2.9.2022 10:45:00,2.9.2022 13:11:00,2.9.2022 10:42:00,https://airlabs.co/,02-09-2022  16:51:46
+801,false,false,8,6,,,,,,,,landed,2.9.2022 13:20:00,2.9.2022 11:40:00,,2.9.2022 12:05:00,https://airlabs.co/,02-09-2022  16:51:46
+794,false,false,8,6,,,,,,,,landed,2.9.2022 13:25:00,2.9.2022 11:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+711,false,false,8,6,,,,,,,,scheduled,2.9.2022 13:30:00,2.9.2022 11:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+552,false,false,8,6,,,,,,,ok,landed,2.9.2022 13:35:00,2.9.2022 11:05:00,2.9.2022 13:49:00,2.9.2022 11:24:00,https://airlabs.co/,02-09-2022  16:51:46
+1533,false,false,8,6,,,,,,,,landed,2.9.2022 13:45:00,2.9.2022 12:40:00,,,https://airlabs.co/,02-09-2022  16:51:46
+701,false,false,8,6,,,,,,,,scheduled,2.9.2022 13:50:00,2.9.2022 11:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+751,false,false,8,6,,,,,,,,scheduled,2.9.2022 13:50:00,2.9.2022 12:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+806,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:00:00,2.9.2022 10:40:00,2.9.2022 14:03:00,,https://airlabs.co/,02-09-2022  16:51:46
+6672,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:00:00,2.9.2022 10:40:00,2.9.2022 14:03:00,,https://airlabs.co/,02-09-2022  16:51:46
+6847,false,false,8,6,,,,,,,,landed,2.9.2022 14:20:00,2.9.2022 9:45:00,2.9.2022 14:14:00,,https://airlabs.co/,02-09-2022  16:51:46
+2366,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:20:00,2.9.2022 11:10:00,2.9.2022 14:33:00,2.9.2022 11:28:00,https://airlabs.co/,02-09-2022  16:51:46
+1301,false,false,8,6,,,,,,,,landed,2.9.2022 14:20:00,2.9.2022 9:45:00,2.9.2022 14:14:00,,https://airlabs.co/,02-09-2022  16:51:46
+26,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 14:25:00,2.9.2022 4:00:00,2.9.2022 14:42:00,2.9.2022 4:09:00,https://airlabs.co/,02-09-2022  16:51:46
+889,false,false,8,6,,,,,,,,cancelled,2.9.2022 14:40:00,2.9.2022 10:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+962,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:40:00,2.9.2022 10:20:00,2.9.2022 14:41:00,2.9.2022 10:31:00,https://airlabs.co/,02-09-2022  16:51:46
+542,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 14:45:00,2.9.2022 12:45:00,2.9.2022 15:02:00,2.9.2022 13:07:00,https://airlabs.co/,02-09-2022  16:51:46
+857,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 14:45:00,2.9.2022 11:20:00,2.9.2022 15:09:00,2.9.2022 11:36:00,https://airlabs.co/,02-09-2022  16:51:46
+5155,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:50:00,2.9.2022 11:10:00,2.9.2022 14:55:00,2.9.2022 11:07:00,https://airlabs.co/,02-09-2022  16:51:46
+564,false,false,8,6,,,,,,,ok,landed,2.9.2022 14:50:00,2.9.2022 11:10:00,2.9.2022 14:55:00,2.9.2022 11:07:00,https://airlabs.co/,02-09-2022  16:51:46
+8907,false,false,8,6,,,,,,,,landed,2.9.2022 14:55:00,2.9.2022 11:00:00,2.9.2022 14:45:00,2.9.2022 11:01:00,https://airlabs.co/,02-09-2022  16:51:46
+322,false,false,8,6,,,,,,,,landed,2.9.2022 14:55:00,2.9.2022 11:00:00,2.9.2022 14:45:00,2.9.2022 11:01:00,https://airlabs.co/,02-09-2022  16:51:46
+931,false,false,8,6,,,,,,,,landed,2.9.2022 15:00:00,2.9.2022 11:50:00,,2.9.2022 11:51:00,https://airlabs.co/,02-09-2022  16:51:46
+8381,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:05:00,2.9.2022 11:25:00,2.9.2022 15:21:00,2.9.2022 11:41:00,https://airlabs.co/,02-09-2022  16:51:46
+354,false,false,8,6,,,,,,,slightly late,landed,2.9.2022 15:05:00,2.9.2022 11:25:00,2.9.2022 15:21:00,2.9.2022 11:41:00,https://airlabs.co/,02-09-2022  16:51:46
+8375,false,false,8,6,,,,,,,,active,2.9.2022 16:50:00,2.9.2022 12:30:00,,2.9.2022 13:11:00,https://airlabs.co/,02-09-2022  16:51:46
+320,false,false,8,6,,,,,,,,active,2.9.2022 16:50:00,2.9.2022 12:30:00,,2.9.2022 13:11:00,https://airlabs.co/,02-09-2022  16:51:46
+8392,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:15:00,,2.9.2022 12:18:00,https://airlabs.co/,02-09-2022  16:51:46
+7859,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:15:00,,2.9.2022 12:18:00,https://airlabs.co/,02-09-2022  16:51:46
+2395,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:15:00,,2.9.2022 12:18:00,https://airlabs.co/,02-09-2022  16:51:46
+396,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:15:00,,2.9.2022 12:18:00,https://airlabs.co/,02-09-2022  16:51:46
+8379,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:25:00,,2.9.2022 12:45:00,https://airlabs.co/,02-09-2022  16:51:46
+8386,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 13:10:00,,2.9.2022 13:26:00,https://airlabs.co/,02-09-2022  16:51:46
+338,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 12:25:00,,2.9.2022 12:45:00,https://airlabs.co/,02-09-2022  16:51:46
+382,false,false,8,6,,,,,,,,active,2.9.2022 16:55:00,2.9.2022 13:10:00,,2.9.2022 13:26:00,https://airlabs.co/,02-09-2022  16:51:46
+3737,false,false,8,6,,,,,,,ok,active,2.9.2022 16:55:00,2.9.2022 12:15:00,2.9.2022 17:09:00,2.9.2022 12:49:00,https://airlabs.co/,02-09-2022  16:51:46
+924,false,false,8,6,,,,,,,ok,active,2.9.2022 17:00:00,2.9.2022 15:00:00,2.9.2022 17:05:00,2.9.2022 15:15:00,https://airlabs.co/,02-09-2022  16:51:46
+5525,false,false,8,6,,,,,,,slightly late,active,2.9.2022 17:00:00,2.9.2022 14:45:00,2.9.2022 17:30:00,2.9.2022 15:21:00,https://airlabs.co/,02-09-2022  16:51:46
+9617,false,false,8,6,,,,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 13:45:00,2.9.2022 18:12:00,2.9.2022 14:03:00,https://airlabs.co/,02-09-2022  16:51:46
+694,false,false,8,6,,,,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 13:45:00,2.9.2022 18:12:00,2.9.2022 14:03:00,https://airlabs.co/,02-09-2022  16:51:46
+7167,false,false,8,6,,,,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 13:45:00,2.9.2022 18:12:00,2.9.2022 14:03:00,https://airlabs.co/,02-09-2022  16:51:46
+9240,false,false,8,6,,,,,,,slightly late,active,2.9.2022 17:50:00,2.9.2022 13:45:00,2.9.2022 18:12:00,2.9.2022 14:03:00,https://airlabs.co/,02-09-2022  16:51:46
+1979,false,false,8,6,,,,,,,,scheduled,2.9.2022 22:55:00,2.9.2022 18:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2367,false,false,8,6,,,,,,,,scheduled,2.9.2022 22:55:00,2.9.2022 19:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1627,false,false,8,6,,,,,,,,scheduled,2.9.2022 22:55:00,2.9.2022 19:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8255,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 20:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+785,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 20:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+790,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 20:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+887,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 21:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+777,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 21:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+344,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:00:00,2.9.2022 22:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+954,false,false,8,6,,,,,,,slightly late,active,2.9.2022 23:00:00,2.9.2022 9:00:00,2.9.2022 23:22:00,2.9.2022 9:01:00,https://airlabs.co/,02-09-2022  16:51:46
+690,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:05:00,2.9.2022 19:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9122,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:05:00,2.9.2022 19:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8778,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 18:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+3316,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 18:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5269,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 18:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7085,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 19:20:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7710,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 21:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7710,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:10:00,2.9.2022 21:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+9110,false,false,8,6,,,,,,,slightly late,scheduled,2.9.2022 23:10:00,2.9.2022 17:45:00,2.9.2022 23:15:00,2.9.2022 18:15:00,https://airlabs.co/,02-09-2022  16:51:46
+1603,false,false,8,6,,,,,,,slightly late,scheduled,2.9.2022 23:10:00,2.9.2022 17:45:00,2.9.2022 23:15:00,2.9.2022 18:15:00,https://airlabs.co/,02-09-2022  16:51:46
+1535,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:20:00,2.9.2022 20:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2345,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:45:00,2.9.2022 20:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1807,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:45:00,2.9.2022 20:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7027,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:55:00,2.9.2022 18:55:00,2.9.2022 23:42:00,,https://airlabs.co/,02-09-2022  16:51:46
+167,false,false,8,6,,,,,,,,scheduled,2.9.2022 23:55:00,2.9.2022 18:55:00,2.9.2022 23:42:00,,https://airlabs.co/,02-09-2022  16:51:46
+3440,false,false,8,6,,,,,,,,scheduled,3.9.2022 0:15:00,2.9.2022 19:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+779,false,false,8,6,,,,,,,,scheduled,3.9.2022 0:15:00,2.9.2022 22:10:00,,,https://airlabs.co/,02-09-2022  16:51:46
+684,false,false,8,6,,,,,,,,cancelled,3.9.2022 0:15:00,2.9.2022 20:35:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7097,false,false,8,6,,,,,,,,cancelled,3.9.2022 0:15:00,2.9.2022 20:35:00,,,https://airlabs.co/,02-09-2022  16:51:46
+859,false,false,8,6,,,,,,,,scheduled,3.9.2022 0:40:00,2.9.2022 21:15:00,,,https://airlabs.co/,02-09-2022  16:51:46
+514,false,false,8,6,,,,,,,,scheduled,3.9.2022 1:55:00,2.9.2022 21:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+928,false,false,8,6,,,,,,,,scheduled,3.9.2022 2:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1528,false,false,8,6,,,,,,,,scheduled,3.9.2022 2:00:00,2.9.2022 23:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7381,false,false,8,7,,Israel,,,,,,scheduled,3.9.2022 3:50:00,3.9.2022 0:30:00,,,https://airlabs.co/,02-09-2022  16:51:46
+5288,false,false,8,7,,,,,,,,scheduled,3.9.2022 4:35:00,3.9.2022 0:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+1286,false,false,8,7,,,,,,,,scheduled,3.9.2022 4:35:00,3.9.2022 0:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+453,false,false,8,6,,,,,,,,scheduled,3.9.2022 4:45:00,2.9.2022 23:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+84,false,false,8,6,,,,,,,,scheduled,3.9.2022 9:55:00,2.9.2022 23:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+80,false,false,8,6,,,,,,,,scheduled,3.9.2022 10:00:00,2.9.2022 23:35:00,,,https://airlabs.co/,02-09-2022  16:51:46
+8198,false,false,8,6,,,,,,,,scheduled,3.9.2022 10:00:00,2.9.2022 23:35:00,,,https://airlabs.co/,02-09-2022  16:51:46
+2083,false,false,8,7,,,,,,,,scheduled,3.9.2022 14:25:00,3.9.2022 9:25:00,,,https://airlabs.co/,02-09-2022  16:51:46
+7025,false,false,8,7,,,,,,,,scheduled,3.9.2022 14:50:00,3.9.2022 10:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+165,false,false,8,7,,,,,,,,scheduled,3.9.2022 14:50:00,3.9.2022 10:00:00,,,https://airlabs.co/,02-09-2022  16:51:46
+90,false,false,8,7,,,,,,,,scheduled,3.9.2022 16:20:00,3.9.2022 5:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
+72,false,false,8,7,,,,,,,,scheduled,3.9.2022 16:40:00,3.9.2022 5:45:00,,,https://airlabs.co/,02-09-2022  16:51:46
+146,false,false,8,7,,,,,,,,scheduled,3.9.2022 17:00:00,3.9.2022 5:59:00,,,https://airlabs.co/,02-09-2022  16:51:46
+4498,false,false,8,7,,,,,,,,scheduled,3.9.2022 17:00:00,3.9.2022 5:59:00,,,https://airlabs.co/,02-09-2022  16:51:46
+234,false,false,8,7,,,,,,,,scheduled,3.9.2022 17:35:00,3.9.2022 6:50:00,,,https://airlabs.co/,02-09-2022  16:51:46
+52,false,false,8,7,,,,,,,,scheduled,3.9.2022 18:00:00,3.9.2022 5:35:00,,,https://airlabs.co/,02-09-2022  16:51:46
+954,false,false,8,7,,,,,,,,scheduled,3.9.2022 20:00:00,3.9.2022 5:55:00,,,https://airlabs.co/,02-09-2022  16:51:46
