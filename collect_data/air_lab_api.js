@@ -7,6 +7,8 @@ const dayjs = require('dayjs');
 const axios = require('axios');//get url
 const fs = require("fs");//write to file
 
+const http = require('http');
+const https = require('https');
 
 function get_now() {
     /**
@@ -20,18 +22,20 @@ function get_now() {
 
 
 
-async function get_company_name(iata, icao) {
+async function get_company_name(iata, icao, httpAgent, httpsAgent) {
     /**
      * get company name by its iata code or its icao code.
      */
     var compony_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${airlabs_API_KEY}`);
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent
+            });
             compony_name = res.data.response[0].name;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${airlabs_API_KEY}`);
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent
+            });
             compony_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -43,7 +47,7 @@ async function get_company_name(iata, icao) {
     return compony_name;
 }
 
-async function get_country_name(iata, icao) {
+async function get_country_name(iata, icao, httpAgent, httpsAgent) {
     /**
     * get company airport iata code or icao code.
     */
@@ -51,16 +55,16 @@ async function get_country_name(iata, icao) {
     var country_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`);
+            let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
             country_code = res.data.response[0].country_code;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`);
+            let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
             country_code = res.data.response[0].country_code;
         }
         //console.log("country_code: " + country_code)
         if (country_code != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`);
+            let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
             country_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -110,8 +114,28 @@ function late_status(minutes) {
     }
 }
 
+function start() {
+    var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
 
-async function doGetRequest() {
+    // WRITE TO FILE
+    fs.writeFileSync("arrive2.csv", csv1);
+    fs.writeFileSync("depurture2.csv", csv1);
+
+    //axios set to keep alive
+    const httpAgent = new http.Agent({ keepAlive: true });
+    const httpsAgent = new https.Agent({ keepAlive: true });
+
+    // on the instance
+    const instance = axios.create({
+        httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
+        httpsAgent,
+    });
+
+    return httpAgent, httpsAgent;
+}
+
+
+async function doGetRequest(httpAgent, httpsAgent) {
     try {
         responseArr = await axios.all([axios.get(`https://airlabs.co/api/v9/schedules??_view=array&_fields=
                                     airline_iata,
@@ -126,9 +150,9 @@ async function doGetRequest() {
                                     arr_time_utc,
                                     arr_estimated_utc,
                                     delayed,
-                                    status&dep_iata=TLV&api_key=${airlabs_API_KEY}`),
+                                    status&dep_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent }),
 
-        axios.get(`https://airlabs.co/api/v9/schedules??_view=array&_fields=
+                                    axios.get(`https://airlabs.co/api/v9/schedules??_view=array&_fields=
                                     airline_iata,
                                     airline_icao,
                                     flight_number,
@@ -141,8 +165,7 @@ async function doGetRequest() {
                                     arr_time_utc,
                                     arr_estimated_utc,
                                     delayed,
-                                    status&arr_iata=TLV&api_key=${airlabs_API_KEY}`)
-        ]);
+                                    status&arr_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent }) ]);
         console.log("r0:", responseArr[0].data.response)
         console.log("r1:", responseArr[1].data.response)
 
@@ -155,9 +178,9 @@ async function doGetRequest() {
             var is_holyday = false;//
             var f_month = convert_utc_str_to_date_type(response.dep_time_utc).getMonth();
             var week_day = convert_utc_str_to_date_type(response.dep_time_utc).getDay() + 1;
-            var company = await get_company_name(response.airline_iata, response.airline_icao);
-            var arrival_country = await get_country_name(response.arr_iata, response.arr_icao);
-            var depurture_country = await get_country_name(response.dep_iata, response.dep_icao);
+            var company = await get_company_name(response.airline_iata, response.airline_icao, httpAgent, httpsAgent);
+            var arrival_country = await get_country_name(response.arr_iata, response.arr_icao, httpAgent, httpsAgent);
+            var depurture_country = await get_country_name(response.dep_iata, response.dep_icao, httpAgent, httpsAgent);
             var flight_type = null;//need to caculate distance
             var weather_dep = null;// need to pull from weather api
             var weather_arr = null;//
@@ -229,7 +252,7 @@ async function doGetRequest() {
 
 
 
-doGetRequest();
+doGetRequest(start());
 // // (A) MANUAL CSV STRING
 // var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
 
