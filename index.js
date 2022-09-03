@@ -5,7 +5,7 @@ const mongo = require('mongodb').MongoClient;
 var url = "mongodb://localhost:2717/airdb";
 
 
-//https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
+// // https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
 // mongo.connect(url, function(err, db) {
 //   if (err) throw err;
 //   console.log("Database created!");
@@ -33,15 +33,15 @@ var url = "mongodb://localhost:2717/airdb";
 //     });
 // });
 
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("airdb");
-//     dbo.collection("customers").findOne({}, function(err, result) {
-//         if (err) throw err;
-//         console.log(result);
-//         db.close();
-//     });
-// });
+mongo.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("airdb");
+    dbo.collection("customers").findOne({}, function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        db.close();
+    });
+});
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
