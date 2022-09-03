@@ -2,14 +2,121 @@
 
 //airlabs
 var airlabs_API_KEY = "d1363006-5b3b-4fa1-a071-d0956cc9d8fe"//new!!! masaday.anak
+
+
 var airlabs_webcite = "https://airlabs.co/"
 const dayjs = require('dayjs');
 const axios = require('axios');//get url
+axios.default.timeout === 60000;
 const fs = require("fs");//write to file
 
 const http = require('http');
 const https = require('https');
+function padTo2Digits(num) {
+    //date helper functions
+    return num.toString().padStart(2, '0');
+}
 
+function formatDate(date) {
+    /* Format a date to YYYY-MM-DD (or any other format)
+    *examples
+    // 2022-01-18 (yyyy-mm-dd)
+    // console.log(formatDate(new Date()));
+    // 2025-05-09 (yyyy-mm-dd)
+    // console.log(formatDate(new Date(2025, 4, 9)));
+*/
+
+    date.setHours(0, 0, 0, 0);
+
+    return [
+        date.getFullYear(),
+        padTo2Digits(date.getMonth() + 1),
+        padTo2Digits(date.getDate()),
+    ].join('-');
+}
+
+
+
+function getPreviousDay(date) {
+    const previous = new Date(date.getTime());
+    previous.setDate(date.getDate() - 1);
+
+    return formatDate(previous);
+}
+
+// console.log(getPreviousDay(new Date())); // 👉️ yesterday
+
+// // Fri Dec 23 2022
+// console.log(getPreviousDay(new Date('2022-12-24')));
+
+//   // Sat Dec 31 2022
+//   console.log(getPreviousDay(new Date('2023-01-01')).getDate());
+
+async function check_previous_day(date, word) {
+
+    try {
+        let previous = getPreviousDay(new Date(date));
+        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + previous + "&g2h=1&strict=1");
+
+        //console.log("inside");
+
+
+        for (const element of response.data.events) {
+
+            if (!element.includes('Parashat')) { //console.log(element)
+                if (element.includes(word)) {/*console.log("word1");*/ return true; }
+            }
+        }
+
+        //console.log("false-previoes  " + word)
+        return false;
+    }
+    catch (err) { console.log(err); }
+
+}
+
+
+
+async function isJewishIsraelyHolyday(date) {
+    try {
+        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1")
+
+        //console.log(date + ": " + response.data.events);
+        /**
+         * for each event which isn't "Parashat", if the first word appear the previes day/ or the previes day has "erev" it's an holyday.
+         * */
+        for (const element of response.data.events) {
+                          
+            if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
+                let first = element.split(' ')[0]
+
+                if (element.includes("Erev")) {
+                   // console.log(element + " " + date + " true")
+                    return true;
+                }
+                if (await check_previous_day(date, first))//check if yestorday is erev chag, or another day of the same chag 
+                {
+                    console.log("True- first: " + element + " " + first)
+                    return true;
+                }
+                if (await check_previous_day(date, "Erev")) {
+
+                   // console.log("True- erev: " + element + " " + first)
+                    return true;
+
+                }
+
+
+            }
+
+        }
+       // console.log("--false")
+        return false;
+
+    }
+    catch (err) { console.log(err); }
+
+}
 function get_now() {
     /**
      * get current time in the following format: 
@@ -29,13 +136,11 @@ async function get_company_name(iata, icao, httpAgent, httpsAgent) {
     var compony_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent
-            });
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent});
             compony_name = res.data.response[0].name;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent
-            });
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
             compony_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -55,16 +160,16 @@ async function get_country_name(iata, icao, httpAgent, httpsAgent) {
     var country_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
+            let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
             country_code = res.data.response[0].country_code;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
+            let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
             country_code = res.data.response[0].country_code;
         }
         //console.log("country_code: " + country_code)
         if (country_code != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
+            let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
             country_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -118,15 +223,15 @@ function start() {
     var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
 
     // WRITE TO FILE
-    fs.writeFileSync("arrive2.csv", csv1);
-    fs.writeFileSync("depurture2.csv", csv1);
+    fs.writeFileSync("arrive3.csv", csv1);
+    fs.writeFileSync("depurture3.csv", csv1);
 
     //axios set to keep alive
     const httpAgent = new http.Agent({ keepAlive: true });
     const httpsAgent = new https.Agent({ keepAlive: true });
 
     // on the instance
-    const instance = axios.create({
+    axios.create({
         httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
         httpsAgent,
     });
@@ -150,7 +255,7 @@ async function doGetRequest(httpAgent, httpsAgent) {
                                     arr_time_utc,
                                     arr_estimated_utc,
                                     delayed,
-                                    status&dep_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent }),
+                                    status&dep_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent}),
 
                                     axios.get(`https://airlabs.co/api/v9/schedules??_view=array&_fields=
                                     airline_iata,
@@ -171,11 +276,11 @@ async function doGetRequest(httpAgent, httpsAgent) {
 
 
         var time_info_taken = get_now();
-
+        //dep
         await responseArr[0].data.response.forEach(async response => {
             var flight_number = response.flight_number;
             var is_summer_vacation = false;//
-            var is_holyday = false;//
+            var is_holyday = isJewishIsraelyHolyday(convert_utc_to_loacl_time(convert_utc_str_to_date_type(response.arr_time_utc)).split(" ")[0]);//
             var f_month = convert_utc_str_to_date_type(response.dep_time_utc).getMonth();
             var week_day = convert_utc_str_to_date_type(response.dep_time_utc).getDay() + 1;
             var company = await get_company_name(response.airline_iata, response.airline_icao, httpAgent, httpsAgent);
@@ -206,12 +311,12 @@ async function doGetRequest(httpAgent, httpsAgent) {
 
             csv += info.join(",") + "\r\n";
 
-            fs.appendFileSync("depurture.csv", csv);
+            fs.appendFileSync("depurture3.csv", csv);
 
 
         });
 
-
+        //arr
         await responseArr[1].data.response.forEach(async response => {
             var flight_number = response.flight_number;
             var is_summer_vacation = false;//
@@ -226,7 +331,9 @@ async function doGetRequest(httpAgent, httpsAgent) {
             var weather_arr = null//
 
             var punctuality = null;
-            punctuality = late_status(response.delayed)
+            if(response.status==="landed"&&response.delayed===null)
+            {punctuality = late_status(0);}
+            else {punctuality = late_status(response.delayed);}
 
             var scheduled_arr_time = convert_utc_to_loacl_time(convert_utc_str_to_date_type(response.arr_time_utc))
             var scheduled_dep_time = convert_utc_to_loacl_time(convert_utc_str_to_date_type(response.dep_time_utc))
@@ -241,7 +348,7 @@ async function doGetRequest(httpAgent, httpsAgent) {
             console.log(info);
             var csv = "";
             csv += info.join(",") + "\r\n";
-            fs.appendFileSync("arrive.csv", csv);
+            fs.appendFileSync("arrive3.csv", csv);
         })
     }
     catch (err) { console.log(err); }

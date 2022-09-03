@@ -1,7 +1,7 @@
 
 const axios = require('axios');
-//date helper functions
 function padTo2Digits(num) {
+    //date helper functions
     return num.toString().padStart(2, '0');
 }
 
@@ -49,14 +49,12 @@ async function check_previous_day(date, word) {
         //console.log("inside");
 
 
-        response.data.events.forEach(element => {
+        for (const element of response.data.events) {
 
-            if (!element.includes('Parashat'))
-            { //console.log(element)
-                if (element.includes(word)) 
-                {/*console.log("word1");*/ return true; }
+            if (!element.includes('Parashat')) { //console.log(element)
+                if (element.includes(word)) {/*console.log("word1");*/ return true; }
             }
-        });
+        }
 
         //console.log("false-previoes  " + word)
         return false;
@@ -68,42 +66,43 @@ async function check_previous_day(date, word) {
 
 
 async function isJewishIsraelyHolyday(date) {
-    const response= await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1")
-       
-            console.log(date + ": " + response.data.events)
-            /**
-             * for each event which isn't "Parashat", if the first word appear the previes day/ or the previes day has "erev" it's an holyday.
-             * */
-            await response.data.events.forEach(async element => {
-                if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
-                    let first = element.split(' ')[0]
+    try {
+        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1")
 
-                    if (element.includes("Erev")) {
-                        console.log(element + " " + date + " true")
-                        // console.log
-                        return true;
-                    }
-                    if (await check_previous_day(date, first))//check if yestorday is erev chag, or another day of the same chag 
-                    {
-                         console.log("True- first: " + element + " " + first)
-                        return true;
-                    }
-                    if (await check_previous_day(date, "Erev")) {
+        //console.log(date + ": " + response.data.events);
+        /**
+         * for each event which isn't "Parashat", if the first word appear the previes day/ or the previes day has "erev" it's an holyday.
+         * */
+        for (const element of response.data.events) {
+                          
+            if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
+                let first = element.split(' ')[0]
 
-                         console.log("True- erev: " + element + " " + first)
-                        return true;
+                if (element.includes("Erev")) {
+                   // console.log(element + " " + date + " true")
+                    return true;
+                }
+                if (await check_previous_day(date, first))//check if yestorday is erev chag, or another day of the same chag 
+                {
+                    console.log("True- first: " + element + " " + first)
+                    return true;
+                }
+                if (await check_previous_day(date, "Erev")) {
 
-                    }
-
+                   // console.log("True- erev: " + element + " " + first)
+                    return true;
 
                 }
 
-            });
-            console.log("--false")
-            return false;
 
-        })
-        .catch((err) => console.log(err));
+            }
+
+        }
+       // console.log("--false")
+        return false;
+
+    }
+    catch (err) { console.log(err); }
 
 }
 // /**2022-08-27: Rosh Chodesh Elul,Parashat Re'eh
@@ -122,7 +121,11 @@ async function isJewishIsraelyHolyday(date) {
 // 2022-04-18: Pesach III (CH''M),Parashat Pesach,2nd day of the Omer
 // 2022-04-15: Ta'anit Bechorot,Erev Pesach,Parashat Pesach
 // 2022-04-17: Pesach II,Parashat Pesach,1st day of the Omer */
-console.log(isJewishIsraelyHolyday("2022-08-06"))//ראש חודש
+// console.log(isJewishIsraelyHolyday("2022-08-06"))//ראש חודש
+
+
+async function test_holyday(){
+isJewishIsraelyHolyday("2022-04-23").then((res)=>{console.log(res);});
 //console.log(isJewishIsraelyHolyday("2022-08-27"))//ראש חודש
 
 // isJewishIsraelyHolyday("2022-08-06")//ערב תשעה באב
@@ -136,10 +139,26 @@ console.log(isJewishIsraelyHolyday("2022-08-06"))//ראש חודש
 
 // isJewishIsraelyHolyday("2022-06-04")//שבועות ערב
 // isJewishIsraelyHolyday("2022-06-05")//שבועות
-// isJewishIsraelyHolyday("2022-04-15")//פסח
-// isJewishIsraelyHolyday("2022-04-16")//פסח
-// isJewishIsraelyHolyday("2022-04-17")//פסח
-// isJewishIsraelyHolyday("2022-04-18")//פסח
-// isJewishIsraelyHolyday("2022-04-19")//פסח
-// isJewishIsraelyHolyday("2022-04-20")//פסח
-// isJewishIsraelyHolyday("2022-04-21")//פסח    
+var res=await isJewishIsraelyHolyday("2022-04-15")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-16")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-17")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-18")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-19")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-20")//פסח
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-21")//פסח   
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-22")//פסח   
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-23")//פסח   
+console.log(res);
+res=await isJewishIsraelyHolyday("2022-04-24")//פסח   
+console.log(res);
+
+}
+test_holyday()
