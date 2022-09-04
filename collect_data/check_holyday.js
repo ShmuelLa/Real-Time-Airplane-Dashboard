@@ -136,7 +136,6 @@ isJewishIsraelyHolyday("2022-04-23").then((res)=>{console.log(res);});
 // isJewishIsraelyHolyday("2022-09-28")//גדליה
 // isJewishIsraelyHolyday("2022-07-16")//ערב יז בתמוז
 // isJewishIsraelyHolyday("2022-07-17")//יז בתמוז
-
 // isJewishIsraelyHolyday("2022-06-04")//שבועות ערב
 // isJewishIsraelyHolyday("2022-06-05")//שבועות
 var res=await isJewishIsraelyHolyday("2022-04-15")//פסח

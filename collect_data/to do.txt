@@ -1,4 +1,6 @@
 -sql
+-for each real time- keep in sql full info.
+-weather_arr
 -distance check
 -summer viction check
 -seperate real time to historical
