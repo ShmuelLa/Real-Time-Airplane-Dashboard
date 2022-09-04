@@ -1,6 +1,10 @@
+// const util= require('util');
+// var encoder = new util.TextEncoder('utf-8');
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongo = require('mongodb').MongoClient;
+
 
 var url = "mongodb://localhost:2717/airdb";
 
