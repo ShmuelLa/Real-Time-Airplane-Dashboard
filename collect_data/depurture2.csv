@@ -1,0 +1,16 @@
+flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken107,false,false,8,7,Tus Airways,Cyprus,Israel,,,,,landed,3.9.2022 17:15:00,3.9.2022 16:15:00,3.9.2022 17:55:00,,https://airlabs.co/,03-09-2022  22:18:38
+5098,false,false,8,7,Wizz Air,Poland,Israel,,,,slightly late,landed,3.9.2022 19:45:00,3.9.2022 15:50:00,3.9.2022 19:58:00,3.9.2022 16:20:00,https://airlabs.co/,03-09-2022  22:18:38
+681,false,false,8,7,Lufthansa,Germany,Israel,,,,slightly late,landed,3.9.2022 21:10:00,3.9.2022 17:10:00,3.9.2022 21:47:00,3.9.2022 17:42:00,https://airlabs.co/,03-09-2022  22:18:38
+6747,false,false,8,7,Ryanair,Belgium,Israel,,,,slightly late,active,3.9.2022 23:55:00,3.9.2022 19:00:00,4.9.2022 0:23:00,3.9.2022 19:27:00,https://airlabs.co/,03-09-2022  22:18:38
+7086,false,false,8,7,Wizz Air,United Arab Emirates,Israel,,,,,scheduled,3.9.2022 22:55:00,3.9.2022 19:45:00,,,https://airlabs.co/,03-09-2022  22:18:38
+890,false,false,8,7,Ural Airlines,Russia,Israel,,,,,cancelled,3.9.2022 20:10:00,3.9.2022 16:10:00,,,https://airlabs.co/,03-09-2022  22:18:38
+963,false,false,8,7,Air France,France,Israel,,,,,cancelled,3.9.2022 21:20:00,3.9.2022 16:30:00,,,https://airlabs.co/,03-09-2022  22:18:38
+687,false,false,8,7,Lufthansa,Germany,Israel,,,,slightly late,landed,3.9.2022 21:00:00,3.9.2022 16:30:00,3.9.2022 21:30:00,3.9.2022 16:53:00,https://airlabs.co/,03-09-2022  22:18:38
+7172,false,false,8,7,Brussels Airlines,Germany,Israel,,,,slightly late,landed,3.9.2022 21:10:00,3.9.2022 17:10:00,3.9.2022 21:47:00,3.9.2022 17:42:00,https://airlabs.co/,03-09-2022  22:18:38
+7174,false,false,8,7,Brussels Airlines,Germany,Israel,,,,slightly late,landed,3.9.2022 21:00:00,3.9.2022 16:30:00,3.9.2022 21:30:00,3.9.2022 16:53:00,https://airlabs.co/,03-09-2022  22:18:38
+5901,false,false,8,7,Malta Air,Repubblica Italiana,Israel,,,,slightly late,active,4.9.2022 0:50:00,3.9.2022 20:45:00,4.9.2022 1:45:00,3.9.2022 21:34:00,https://airlabs.co/,03-09-2022  22:18:38
+1656,false,false,8,7,EasyJet,France,Israel,,,,slightly late,active,3.9.2022 22:55:00,3.9.2022 18:45:00,3.9.2022 23:50:00,3.9.2022 19:40:00,https://airlabs.co/,03-09-2022  22:18:38
+253,false,false,8,7,Swiss,Switzerland,Israel,,,,slightly late,active,3.9.2022 22:40:00,3.9.2022 17:50:00,3.9.2022 22:20:00,3.9.2022 18:10:00,https://airlabs.co/,03-09-2022  22:18:38
+925,false,false,8,7,Aegean Airlines,Greece,Israel,,,,slightly late,active,3.9.2022 21:50:00,3.9.2022 19:40:00,3.9.2022 22:27:00,3.9.2022 20:24:00,https://airlabs.co/,03-09-2022  22:18:38
+784,false,false,8,7,Pegasus,Turkey,Israel,,,,,landed,3.9.2022 18:30:00,3.9.2022 16:15:00,3.9.2022 18:46:00,,https://airlabs.co/,03-09-2022  22:18:38
+7028,false,false,8,7,American Airlines,United Kingdom,Israel,,,,ok,landed,3.9.2022 21:55:00,3.9.2022 16:40:00,3.9.2022 21:53:00,3.9.2022 16:49:00,https://airlabs.co/,03-09-2022  22:18:38

@@ -1,0 +1,6 @@
+-sql
+-distance check
+-summer viction check
+-seperate real time to historical
+-work with historical api
+-connect to kappa?
