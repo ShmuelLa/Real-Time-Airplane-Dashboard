@@ -1,0 +1,16 @@
+{
+  "name": "bigml",
+  "version": "1.0.0",
+  "description": "bigml flight predictions",
+  "main": "bigml.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bigml": "^1.25.2",
+    "csvtojson": "^2.0.10",
+    "fast-csv": "^4.3.6"
+  }
+}
