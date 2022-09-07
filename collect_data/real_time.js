@@ -1,11 +1,16 @@
 
-const dayjs = require('dayjs');
+const lib_complete_info = require("./lib");
+
+
+
+
 const axios = require('axios');//get url
 axios.default.timeout === 60000;
-const fs = require("fs");//write to file
 
-const http = require('http');
-const https = require('https');
+
+//const fs = require("fs");//write to file
+// const http = require('http');
+// const https = require('https');
 
 
 
@@ -13,57 +18,28 @@ const air_labs_API_KEY='1170dda1-31bb-4f88-a7f5-62f0f9fb82a2'
 var airlabs_webcite = "https://airlabs.co/"
 
 
-function get_now() {
-    /**
-     * get current time in the following format: 
-     * 26-08-2022  18:04:10
-     */
-    let today = dayjs();
-    return today.format("DD-MM-YYYY  HH:mm:ss");
+// function start() {
+//     var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
 
-}
-function convert_utc_str_to_date_type(utc_date_str) {
-    /**
-     * console.log(convert_utc_to_isreal_time('2022-08-30 16:00'))
-     * >> 2022-08-30T16:00:00.000Z
-     */
-    if (utc_date_str != null) {
-        const date_time = utc_date_str.split(" ");
-        utc_date_str = date_time[0] + "T" + date_time[1] + "Z";
-        return new Date(utc_date_str);
-    }
-    return null;
+//     // WRITE TO FILE
+//     fs.writeFileSync("arrive3.csv", csv1);
+//     fs.writeFileSync("depurture3.csv", csv1);
 
-}
-function convert_utc_to_loacl_time(utc_date) {
-    /**
-     * recive utc date in Date type
-     * return  string of local time
-     */
-    if (utc_date != null) {
-        return utc_date.toLocaleDateString() + ' ' + utc_date.toLocaleTimeString();
-    }
-    return null;
-}
+//     //axios set to keep alive
+//     const httpAgent = new http.Agent({ keepAlive: true });
+//     const httpsAgent = new https.Agent({ keepAlive: true });
 
-function start() {
-    var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
+//     // on the instance
+//     axios.create({
+//         httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
+//         httpsAgent,
+//     });
 
-    // WRITE TO FILE
-    fs.writeFileSync("arrive3.csv", csv1);
-    fs.writeFileSync("depurture3.csv", csv1);
-
-    //axios set to keep alive
-    const httpAgent = new http.Agent({ keepAlive: true });
-    const httpsAgent = new https.Agent({ keepAlive: true });
-
-    // on the instance
-    axios.create({
-        httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
-        httpsAgent,
-    });
-
-    return httpAgent, httpsAgent;
+//     return httpAgent, httpsAgent;
+// }
+function kfkat(data)
+{
+    console.log(data);
 }
 
 
@@ -84,7 +60,7 @@ async function doGetRequest(httpAgent, httpsAgent) {
                                     arr_iata,
                                     arr_icao,
                                     updated,
-                                    status&dep_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent}),
+                                    status&dep_iata=TLV&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent}),
 
                                     axios.get(`https://airlabs.co/api/v9/schedules??_view=array&_fields=
                                     airline_iata,
@@ -101,7 +77,7 @@ async function doGetRequest(httpAgent, httpsAgent) {
                                     arr_iata,
                                     arr_icao,
                                     updated,
-                                    status&arr_iata=TLV&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent }) ]);
+                                    status&arr_iata=TLV&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent }) ]);
         console.log("r0:", responseArr[0].data.response)
         console.log("r1:", responseArr[1].data.response)
 
@@ -183,6 +159,8 @@ async function doGetRequest(httpAgent, httpsAgent) {
         })
     }
     catch (err) { console.log(err); }
+
+
 
 
 

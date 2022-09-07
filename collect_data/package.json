@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon edit_csv.js"
+    "start": "nodemon get_distance.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "line-by-line": "^0.1.6",
+    "node-geometry-library": "^1.2.6",
     "nodemon": "^2.0.19",
     "sqlite3": "^5.0.11",
     "throttled-queue": "^2.1.4"
