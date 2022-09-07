@@ -6,8 +6,10 @@ WHEELS_ON,TAXI_IN,SCHEDULED_ARRIVAL,ARRIVAL_TIME,ARRIVAL_DELAY,DELAY_TYPE,DISTAN
 
 const http = require('http');
 const https = require('https');
-const fs = require('fs').promises;
+const fs = require('fs');//.promises;
 const axios = require('axios');
+const { read } = require('fs');
+const { rejects } = require('assert');
 axios.default.timeout === 60000;
 const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
 function padTo2Digits(num) {
@@ -136,7 +138,7 @@ async function get_weather_for_airport(iata_code, date, hour/*, httpAgent, https
         var desc_code = response.data.forecast.forecastday[0].hour[0].condition.code;
         var deg = response.data.forecast.forecastday[0].hour[0].feelslike_c;
         console.log(desc, desc_code, deg);
-        return (desc, desc_code, deg)
+        return [desc, desc_code, deg];
 
 
         /*{
@@ -198,63 +200,132 @@ async function get_weather_for_airport(iata_code, date, hour/*, httpAgent, https
 //     return httpAgent, httpsAgent;
 // }
 
-async function read_write(/*httpAgent, httpsAgent*/) {
- 
+// async function read_write(/*httpAgent, httpsAgent*/) {
 
-        var stream = require("fs").createReadStream("flights_for_BigML.csv");
-        var reader = require("readline").createInterface({ input: stream });
-        reader.on("line", async (row) => {
-           
-            // console.log(row);
-            var split_row = row.split(',');
+
+//     var stream = fs.createReadStream("f2.csv");
+//     var reader = require("readline").createInterface({ input: stream });
+//     var i = 0
+//     reader.on("line", async (row) => {
+//         //    i+=1;
+//         //    if(i===10)  { reader.cancel();         return;}
+//         //     console.log(row);
+//         var split_row = row.split(',');
+//         if (split_row[0] != "YEAR") {
+//             //console.log(split_row[0], split_row[1], split_row[2]);
+//             var date = formatDate(new Date(split_row[0], split_row[1], split_row[2]));
+//             //console.log(split_row[9])
+//             var hour = Math.floor((parseInt(split_row[9]) / 100));
+//             var origin_air = split_row[6];
+//             var dest_air = split_row[7];
+
+//             // console.log(date, hour);
+//             // console.log(origin_air, dest_air);
+//             var is_holyday = await isJewishIsraelyHolyday(date/*, httpAgent, httpsAgent*/);
+//             var is_summer_vic = is_summer_vacation(date);
+//             var weather_dep = await get_weather_for_airport(origin_air, date, hour/*, httpAgent, httpsAgent*/);
+//             console.log(weather_dep, is_holyday)
+//             var weather_arr = await get_weather_for_airport(dest_air, date, hour/*, httpAgent, httpsAgent*/);
+//             //desc,desc_code,deg
+//             split_row.push(is_holyday);
+//             split_row.push(is_summer_vic);
+//             split_row.push(weather_dep[2])
+//             split_row.push(weather_dep[0])
+//             split_row.push(weather_dep[1])
+//             split_row.push(weather_arr[2])
+//             split_row.push(weather_arr[0])
+//             split_row.push(weather_arr[1])
+//             console.log(split_row.join(',') + "\r\n");
+//             console.log(is_holyday, is_summer_vic, weather_dep, weather_arr);
+//             fs.appendFile("data.csv", split_row.join(',') + "\r\n")
+
+
+//         }
+//         else {
+//             split_row.push("IS_HOLYDAY");
+//             //                 split_row.push("IS_VICATION");
+                            
+//             //                 split_row.push("WEATHER_DEP_DESC");
+//             //                 split_row.push("WEATHER_DEP_DESC_CODE");
+//             //                 split_row.push("WEATHER_DEP_DEG");
+                            
+//             //                 split_row.push("WEATHER_ARR_DESC");
+//             //                 split_row.push("WEATHER_ARR_DESC_CODE");
+//             //                 split_row.push("WEATHER_ARR_DEG");
+//             fs.writeFile("data.csv", split_row.join(',') + "\r\n");
+//         }
+
+
+
+
+//     });
+//     console.log("done");
+
+// }
+// var httpAgent, httpsAgent=start();
+// const throttledQueue = require('throttled-queue');
+// const throttle = throttledQueue(1, 1000); // at most make 1 request every second.
+// throttle(() => {read_write(start());});
+//read_write(start());
+//read_write();
+
+async function read2() {
+    var LineByLineReader = require('line-by-line'),
+        lr = new LineByLineReader('f.csv');
+
+    lr.on('error', function (err) {
+        // 'err' contains error object
+    });
+
+    lr.on('line', async function (line) {
+        // pause emitting of lines...
+        lr.pause();
+
+        // ...do your asynchronous line processing..
+        //  setTimeout(async function () {
+            var split_row = line.split(',');
             if (split_row[0] != "YEAR") {
                 //console.log(split_row[0], split_row[1], split_row[2]);
                 var date = formatDate(new Date(split_row[0], split_row[1], split_row[2]));
                 //console.log(split_row[9])
                 var hour = Math.floor((parseInt(split_row[9]) / 100));
-                origin_air = split_row[6];
-                dest_air = split_row[7];
-
+                var origin_air = split_row[6];
+               var  dest_air = split_row[7];
+    
                 // console.log(date, hour);
                 // console.log(origin_air, dest_air);
-                var is_holyday = await isJewishIsraelyHolyday(date, httpAgent, httpsAgent);
+                var is_holyday = await isJewishIsraelyHolyday(date/*, httpAgent, httpsAgent*/);
                 var is_summer_vic = is_summer_vacation(date);
-                var weather_dep = await get_weather_for_airport(origin_air, date, hour, httpAgent, httpsAgent);
-                console.log(weather_dep,is_holyday)
-                var weather_arr = await get_weather_for_airport(dest_air, date, hour, httpAgent, httpsAgent);
+                var weather_dep = await get_weather_for_airport(origin_air, date, hour/*, httpAgent, httpsAgent*/);
+                
+                var weather_arr = await get_weather_for_airport(dest_air, date, hour/*, httpAgent, httpsAgent*/);
                 //desc,desc_code,deg
-                split_row.push(is_holyday);
-                split_row.push(is_summer_vic);
-                split_row.push(weather_dep[2])
-                split_row.push(weather_dep[0])
-                split_row.push(weather_dep[1])
-                split_row.push(weather_arr[2])
-                split_row.push(weather_arr[0])
-                split_row.push(weather_arr[1])
-                await fs.appendFile("data.csv", split_row.join(',') + "\r\n")
-
-
+                console.log(split_row.join(',') + "\r\n");
+                console.log( split_row.join(',') + `,${is_holyday},${is_summer_vic},${weather_dep[0]},${weather_dep[1]},${weather_dep[2]},${weather_arr[0]},${weather_arr[1]},${weather_arr[2]}\r\n`);
+                fs.appendFileSync("data2.csv",split_row.join(',') + `,${is_holyday},${is_summer_vic},${weather_dep[0]},${weather_dep[1]},${weather_dep[2]},${weather_arr[0]},${weather_arr[1]},${weather_arr[2]}\r\n`)
+    
+    
             }
             else {
                 split_row.push("IS_HOLYDAY");
                 split_row.push("IS_VICATION");
-                split_row.push("WEATHER_DEP_DEG");
+                
                 split_row.push("WEATHER_DEP_DESC");
                 split_row.push("WEATHER_DEP_DESC_CODE");
-                split_row.push("WEATHER_ARR_DEG");
+                split_row.push("WEATHER_DEP_DEG");
+                
                 split_row.push("WEATHER_ARR_DESC");
                 split_row.push("WEATHER_ARR_DESC_CODE");
-                await fs.writeFile("data.csv", split_row.join(',') + "\r\n");
+                split_row.push("WEATHER_ARR_DEG");
+                fs.writeFileSync("data2.csv", split_row.join(',') + "\r\n");
             }
- 
+            // ...and continue emitting lines.
+            lr.resume();
+         //}, 100);
+     });
 
-
-
-        });
-   
+    lr.on('end', function () {
+        // All lines are read, file is closed now.
+    });
 }
-// var httpAgent, httpsAgent=start();
-// const throttledQueue = require('throttled-queue');
-// const throttle = throttledQueue(1, 1000); // at most make 1 request every second.
-// throttle(() => {read_write(start());});
-read_write(start());
+read2()
