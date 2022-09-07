@@ -8,6 +8,62 @@ const url = "mongodb://localhost:2717";
 const mongo = new MongoClient(url);
 const db_name = "airdb"
 
+const exampple_doc =   {
+    YEAR: '2015',
+    MONTH: '1',
+    DAY: '1',
+    DAY_OF_WEEK: '4',
+    AIRLINE: 'WN',
+    FLIGHT_NUMBER: '473',
+    ORIGIN_AIRPORT: 'FLL',
+    DESTINATION_AIRPORT: 'TLV',
+    SCHEDULED_DEPARTURE: '1045',
+    DEPARTURE_TIME: '1046',
+    DEPARTURE_DELAY: '1',
+    TAXI_OUT: '19',
+    WHEELS_OFF: '1105',
+    SCHEDULED_TIME: '115',
+    ELAPSED_TIME: '118',
+    AIR_TIME: '89',
+    DISTANCE: '581',
+    WHEELS_ON: '1234',
+    TAXI_IN: '10',
+    SCHEDULED_ARRIVAL: '1240',
+    ARRIVAL_TIME: '1244',
+    ARRIVAL_DELAY: '4',
+    DELAY_TYPE: 'No Delay',
+    DISTANCE_TYPE: 'Short',
+    IS_HOLYDAY: 'false',
+    IS_VICATION: 'false',
+    WEATHER_DEP_DESC: 'Sunny',
+    WEATHER_DEP_DESC_CODE: '1000',
+    WEATHER_DEP_DEG: '21.2',
+    WEATHER_ARR_DESC: 'Sunny',
+    WEATHER_ARR_DESC_CODE: '1000',
+    WEATHER_ARR_DEG: '23.5'
+}
+
+/*
+MongoDB code snippet, base function:
+
+    async function mongo_main() {
+        // Use connect method to connect to the server
+        await mongo.connect();
+        console.log('Connected successfully to server');
+        const db = mongo.db(db_name);
+        const collection = db.collection('test2');
+    
+        // the following code examples can be pasted here...
+    
+        return 'done.';
+    }
+
+    mongo_main()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => mongo.close());
+*/
+
 
 async function inserJson(csvData) {
     try {
@@ -22,75 +78,25 @@ async function inserJson(csvData) {
         await mongo.close();
     }
 }
-// // https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
-
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db(db_name);
-//     dbo.createCollection("test1", function(err, res) {
-//         if (err) throw err;
-//         console.log("test1 Collection created!");
-//         db.close();
-//     });
-// });
-
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("airdb");
-//     var myobj = {name: "El-Al", address: "E7445"};
-//     dbo.collection("test1").insertOne(myobj, function(err, res) {
-//         if (err) throw err;
-//         console.log("1 document inserted");
-//         db.close();
-//     });
-// });
-
-// mongodb.connect(
-//     url,
-//     // { useNewUrlParser: true, useUnifiedTopology: true },
-//     (err, client) => {
-//       if (err) throw err;
-//       client
-//         .collection("test1")
-//         .insertMany(csvData, (err, res) => {
-//           if (err) throw err;
-//           console.log(`Inserted: ${res.insertedCount} rows`);
-//           client.close();
-//         });
-//     }
-// );
 
 
-
-async function mongo_main() {
-    // Use connect method to connect to the server
-    await mongo.connect();
-    console.log('Connected successfully to server');
-    const db = mongo.db(db_name);
-    const collection = db.collection('test2');
-  
-    // the following code examples can be pasted here...
-  
-    return 'done.';
+async function insertOne(doc) {
+    try {
+        await mongo.connect();
+        const database = mongo.db(db_name);
+        const haiku = database.collection("test2");
+        const result = await haiku.insertOne(doc);
+        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    } finally {
+       await mongo.close();
+    }
 }
-
-mongo_main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => mongo.close());
-
-
-csvtojson()
-    .fromFile(__dirname + "/../Datasets/1000-data.csv")
-    .then(csvData => {
-        inserJson(csvData).catch(console.dir);
-});
 
 
 async function findExample() {
     try {
         await mongo.connect();
-        const database = client.db(db_name);
+        const database = mongo.db(db_name);
         const movies = database.collection("test2");
         // Query for a movie that has the title 'The Room'
         const query = { YEAR: '2015' };
@@ -102,12 +108,45 @@ async function findExample() {
         // };
         const movie = await movies.findOne(query);
         // since this method returns the matched document, not a cursor, print it directly
-        console.log(movie);
+        console.log(`A document was found with id: ${movie._id}`);
     } finally {
         await mongo.close();
     }
 }
-findExample().catch(console.dir);
+
+csvtojson()
+    .fromFile(__dirname + "/../Datasets/1000-data.csv")
+    .then(csvData => {
+        inserJson(csvData).catch(console.dir);
+});
+
+// async function run() {
+//     try {
+//         // await mongo.connect();
+//         const database = mongo.db(db_name);
+//         const movies = database.collection("test2");
+//         // query for movies that have a runtime less than 15 minutes
+//         const query = { YEAR: { $lt: 2500 } };
+//         const cursor = movies.find(query);
+//         // print a message if no documents were found
+//         if ((await cursor.count()) === 0) {
+//             console.log("No documents found!");
+//         }
+//         // replace console.dir with your callback to access individual elements
+//         await cursor.forEach(console.dir);
+//     } finally {
+//         await mongo.close();
+//     }
+// }
+// run().catch(console.dir);
+
+
+
+
+// insertOne(exampple_doc).catch(console.dir);
+// findExample().catch(console.dir);
+
+
 
 app.listen(55551, function() {
 });
