@@ -1,23 +1,28 @@
-bigml = require('bigml');
-const mongo = require('mongodb').MongoClient;
+const bigml = require('bigml');
+const express = require("express");
+const { MongoClient } = require('mongodb');
 const csvtojson = require("csvtojson");
+const app = express();
 
-// csvtojson()
-//     .fromFile(__dirname + "/../Datasets/1000-data.csv")
-//     .then(csvData => {
-//         console.log(csvData);
-// });
-
-
-const url = "mongodb://localhost:2717/airdb";
+const url = "mongodb://localhost:2717";
+const mongo = new MongoClient(url);
 const db_name = "airdb"
 
+
+async function inserJson(csvData) {
+    try {
+        await mongo.connect();
+        const database = mongo.db(db_name);
+        const foods = database.collection("test2");
+        // this option prevents additional documents from being inserted if one fails
+        const options = { ordered: true };
+        const result = await foods.insertMany(csvData, options);
+        console.log(`${result.insertedCount} documents were inserted`);
+    } finally {
+        await mongo.close();
+    }
+}
 // // https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
-// mongo.connect(url, function(err, db) {
-//   if (err) throw err;
-//   console.log("Connected to MongoDB airdb!");
-//   db.close();
-// });
 
 // mongo.connect(url, function(err, db) {
 //     if (err) throw err;
@@ -55,15 +60,6 @@ const db_name = "airdb"
 //     }
 // );
 
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db(db_name);
-//     dbo.collection("test1").findOne({}, function(err, result) {
-//         if (err) throw err;
-//         console.log(result);
-//         db.close();
-//     });
-// });
 
 
 async function mongo_main() {
@@ -81,4 +77,38 @@ async function mongo_main() {
 mongo_main()
   .then(console.log)
   .catch(console.error)
-  .finally(() => client.close());
+  .finally(() => mongo.close());
+
+
+csvtojson()
+    .fromFile(__dirname + "/../Datasets/1000-data.csv")
+    .then(csvData => {
+        inserJson(csvData).catch(console.dir);
+});
+
+
+async function findExample() {
+    try {
+        await mongo.connect();
+        const database = client.db(db_name);
+        const movies = database.collection("test2");
+        // Query for a movie that has the title 'The Room'
+        const query = { YEAR: '2015' };
+        // const options = {
+        // // sort matched documents in descending order by rating
+        // sort: { "imdb.rating": -1 },
+        // // Include only the `title` and `imdb` fields in the returned document
+        // projection: { _id: 0, title: 1, imdb: 1 },
+        // };
+        const movie = await movies.findOne(query);
+        // since this method returns the matched document, not a cursor, print it directly
+        console.log(movie);
+    } finally {
+        await mongo.close();
+    }
+}
+findExample().catch(console.dir);
+
+app.listen(55551, function() {
+});
+
