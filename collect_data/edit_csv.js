@@ -3,11 +3,28 @@ DESTINATION_AIRPORT,SCHEDULED_DEPARTURE,DEPARTURE_TIME,DEPARTURE_DELAY,
 TAXI_OUT,WHEELS_OFF,SCHEDULED_TIME,ELAPSED_TIME,AIR_TIME,DISTANCE,
 WHEELS_ON,TAXI_IN,SCHEDULED_ARRIVAL,ARRIVAL_TIME,ARRIVAL_DELAY,DELAY_TYPE,DISTANCE_TYPE
 */
-const weather_api_API_KEY="ca4ab3174e3340468f1192548220409"
+
+const http = require('http');
+const https = require('https');
+const fs = require('fs').promises;
+const axios = require('axios');
+axios.default.timeout === 60000;
+const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
 function padTo2Digits(num) {
     //date helper functions
     return num.toString().padStart(2, '0');
 }
+function is_summer_vacation(date) {
+    /**
+     * 
+     */
+    date = new Date(date);
+    var start_vic = new Date(date.getFullYear() + '-06-20');
+    var end_vic = new Date(date.getFullYear() + '-09-01');
+    return date > start_vic && date < end_vic;
+
+}
+
 
 function formatDate(date) {
     /* Format a date to YYYY-MM-DD (or any other format)
@@ -44,11 +61,11 @@ function getPreviousDay(date) {
 //   // Sat Dec 31 2022
 //   console.log(getPreviousDay(new Date('2023-01-01')).getDate());
 
-async function check_previous_day(date, word) {
+async function check_previous_day(date, word, httpAgent, httpsAgent) {
 
     try {
         let previous = getPreviousDay(new Date(date));
-        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + previous + "&g2h=1&strict=1");
+        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + previous + "&g2h=1&strict=1"/*, { httpAgent: httpAgent, httpsAgent: httpsAgent }*/);
 
         //console.log("inside");
 
@@ -69,31 +86,31 @@ async function check_previous_day(date, word) {
 
 
 
-async function isJewishIsraelyHolyday(date) {
+async function isJewishIsraelyHolyday(date/*, httpAgent, httpsAgent*/) {
     try {
-        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1")
+        const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1"/*, { httpAgent: httpAgent, httpsAgent: httpsAgent }*/)
 
         //console.log(date + ": " + response.data.events);
         /**
          * for each event which isn't "Parashat", if the first word appear the previes day/ or the previes day has "erev" it's an holyday.
          * */
         for (const element of response.data.events) {
-                          
+
             if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
                 let first = element.split(' ')[0]
 
                 if (element.includes("Erev")) {
-                   // console.log(element + " " + date + " true")
+                    // console.log(element + " " + date + " true")
                     return true;
                 }
-                if (await check_previous_day(date, first))//check if yestorday is erev chag, or another day of the same chag 
+                if (await check_previous_day(date, first/*, httpAgent, httpsAgent*/))//check if yestorday is erev chag, or another day of the same chag 
                 {
                     console.log("True- first: " + element + " " + first)
                     return true;
                 }
-                if (await check_previous_day(date, "Erev")) {
+                if (await check_previous_day(date, "Erev"/*, httpAgent, httpsAgent*/)) {
 
-                   // console.log("True- erev: " + element + " " + first)
+                    // console.log("True- erev: " + element + " " + first)
                     return true;
 
                 }
@@ -102,7 +119,7 @@ async function isJewishIsraelyHolyday(date) {
             }
 
         }
-       // console.log("--false")
+        // console.log("--false")
         return false;
 
     }
@@ -112,72 +129,132 @@ async function isJewishIsraelyHolyday(date) {
 
 
 
-function convert_utc_str_to_date_type(utc_date_str) {
-    /**
-     * console.log(convert_utc_to_isreal_time('2022-08-30 16:00'))
-     * >> 2022-08-30T16:00:00.000Z
-     */
-    if (utc_date_str != null) {
-        const date_time = utc_date_str.split(" ");
-        utc_date_str = date_time[0] + "T" + date_time[1] + "Z";
-        return new Date(utc_date_str);
+async function get_weather_for_airport(iata_code, date, hour/*, httpAgent, httpsAgent*/) {
+    try {
+        const response = await axios.get(`https://api.weatherapi.com/v1/history.json?key=${weather_api_API_KEY}&q=${iata_code}&dt=${date}&hour=${hour}`/*, { httpAgent: httpAgent, httpsAgent: httpsAgent }*/);
+        var desc = response.data.forecast.forecastday[0].hour[0].condition.text;
+        var desc_code = response.data.forecast.forecastday[0].hour[0].condition.code;
+        var deg = response.data.forecast.forecastday[0].hour[0].feelslike_c;
+        console.log(desc, desc_code, deg);
+        return (desc, desc_code, deg)
+
+
+        /*{
+            time_epoch: 1422795600,
+            time: '2015-02-01 08:00',
+            temp_c: -0.7,
+            temp_f: 30.7,
+            is_day: 0,
+            condition: {
+              text: 'Cloudy',
+              icon: '//cdn.weatherapi.com/weather/64x64/night/119.png',
+              code: 1006
+            },
+            wind_mph: 5.1,
+            wind_kph: 8.3,
+            wind_degree: 218,
+            wind_dir: 'SW',
+            pressure_mb: 1025,
+            pressure_in: 30.27,
+            precip_mm: 0,
+            precip_in: 0,
+            humidity: 63,
+            cloud: 61,
+            feelslike_c: -3.9,
+            feelslike_f: 25,
+            windchill_c: -3.9,
+            windchill_f: 25,
+            heatindex_c: -0.7,
+            heatindex_f: 30.7,
+            dewpoint_c: -6.9,
+            dewpoint_f: 19.6,
+            will_it_rain: 0,
+            chance_of_rain: 2,
+            will_it_snow: 0,
+            chance_of_snow: 0,
+            vis_km: 10,
+            vis_miles: 6,
+            gust_mph: 7.9,
+            gust_kph: 12.7
+          }*/
     }
-    return null;
-
-}
-function convert_utc_to_loacl_time(utc_date) {
-    /**
-     * recive utc date in Date type
-     * return  string of local time
-     */
-    if (utc_date != null) {
-        return utc_date.toLocaleDateString() + ' ' + utc_date.toLocaleTimeString();
+    catch (err) {
+        console.log(err);
     }
-    return null;
 }
+// function start() {
 
-async function get_weather_for_airport(iata_code,date,hour)
-{
-    const response = await axios.get(`https://api.weatherapi.com/v1/history.json?key="${weather_api_API_KEY}"&q="${iata_code}"&dt="${date}"&hour=${hour}`);
-    console.log(response)
+
+//     //axios set to keep alive
+//     const httpAgent = new http.Agent({ keepAlive: true,agent: false });
+//     const httpsAgent = new https.Agent({ keepAlive: true,agent: false });
+
+//     // on the instance
+//     axios.create({
+//         httpAgent,  // httpAgent: httpAgent -> for non es6 syntax
+//         httpsAgent,
+//     });
+
+//     return httpAgent, httpsAgent;
+// }
+
+async function read_write(/*httpAgent, httpsAgent*/) {
+ 
+
+        var stream = require("fs").createReadStream("flights_for_BigML.csv");
+        var reader = require("readline").createInterface({ input: stream });
+        reader.on("line", async (row) => {
+           
+            // console.log(row);
+            var split_row = row.split(',');
+            if (split_row[0] != "YEAR") {
+                //console.log(split_row[0], split_row[1], split_row[2]);
+                var date = formatDate(new Date(split_row[0], split_row[1], split_row[2]));
+                //console.log(split_row[9])
+                var hour = Math.floor((parseInt(split_row[9]) / 100));
+                origin_air = split_row[6];
+                dest_air = split_row[7];
+
+                // console.log(date, hour);
+                // console.log(origin_air, dest_air);
+                var is_holyday = await isJewishIsraelyHolyday(date, httpAgent, httpsAgent);
+                var is_summer_vic = is_summer_vacation(date);
+                var weather_dep = await get_weather_for_airport(origin_air, date, hour, httpAgent, httpsAgent);
+                console.log(weather_dep,is_holyday)
+                var weather_arr = await get_weather_for_airport(dest_air, date, hour, httpAgent, httpsAgent);
+                //desc,desc_code,deg
+                split_row.push(is_holyday);
+                split_row.push(is_summer_vic);
+                split_row.push(weather_dep[2])
+                split_row.push(weather_dep[0])
+                split_row.push(weather_dep[1])
+                split_row.push(weather_arr[2])
+                split_row.push(weather_arr[0])
+                split_row.push(weather_arr[1])
+                await fs.appendFile("data.csv", split_row.join(',') + "\r\n")
+
+
+            }
+            else {
+                split_row.push("IS_HOLYDAY");
+                split_row.push("IS_VICATION");
+                split_row.push("WEATHER_DEP_DEG");
+                split_row.push("WEATHER_DEP_DESC");
+                split_row.push("WEATHER_DEP_DESC_CODE");
+                split_row.push("WEATHER_ARR_DEG");
+                split_row.push("WEATHER_ARR_DESC");
+                split_row.push("WEATHER_ARR_DESC_CODE");
+                await fs.writeFile("data.csv", split_row.join(',') + "\r\n");
+            }
+ 
+
+
+
+        });
+   
 }
-async function read_write() {
-    var stream = require("fs").createReadStream("flights_for_BigML.csv");
-    var reader = require("readline").createInterface({ input: stream });
-    var arr = [];
-    reader.on("line", async (row) => { 
-        // console.log(row);
-        simple_row=row.split(',');
-        if(simple_row[0]!="YEAR")
-        {
-            //console.log(simple_row[0], simple_row[1], simple_row[2]);
-            var date=formatDate(new Date(simple_row[0], simple_row[1], simple_row[2]));
-            //console.log(simple_row[9])
-            var hour=Math.floor((parseInt(simple_row[9])/100));
-            origin_air=simple_row[6];
-            dest_air=simple_row[7];
-
-            //console.log(date,hour);
-            console.log(origin_air,dest_air);
-
-            await get_weather_for_airport(origin_air,date,hour);
-            await get_weather_for_airport(dest_air,date,hour);
-
-        }
-        else
-        {
-
-        }
-        
-        
-        
-        arr.push(row.split(",")) });
-}
-
-// var csv1 = "flight_number,is_summer_vacation,is_holyday,f_month,week_day,company,arrival_country,depurture_country,flight_type,weather_dep,weather_arr,punctuality,f_status,scheduled_arr_time,scheduled_dep_time,updated_arr_time,updated_dep_time,webcite,time_info_taken";
-
-// // (B) WRITE TO FILE
-// fs.writeFileSync("arrive.csv", csv1);
-// fs.writeFileSync("depurture.csv", csv1);
-// fs.appendFileSync("arrive3.csv", csv);
-read_write()
+// var httpAgent, httpsAgent=start();
+// const throttledQueue = require('throttled-queue');
+// const throttle = throttledQueue(1, 1000); // at most make 1 request every second.
+// throttle(() => {read_write(start());});
+read_write(start());
