@@ -4,9 +4,27 @@ const { MongoClient } = require('mongodb');
 const csvtojson = require("csvtojson");
 const app = express();
 
+const connection = new bigml.BigML('ShmuelLa', '1bbe994797b5fb7637e4590aa3c11bff420a548e');
+const model = new bigml.Model(connection);
+bigml.Prediction(connection)
+
+const localModel = new bigml.LocalModel('model/6318d5768be2aa4bb80001e8', connection);
+
+
+
+
 const url = "mongodb://localhost:2717";
 const mongo = new MongoClient(url);
 const db_name = "airdb"
+
+// model.get('model/6318d5768be2aa4bb80001e8',
+//     true,
+//     'only_model=true;limit=-1',
+//     function (error, resource) {
+//     if (!error && resource) {
+//     console.log(resource);
+//     }
+// })
 
 const exampple_doc =   {
     YEAR: '2015',
@@ -43,6 +61,42 @@ const exampple_doc =   {
     WEATHER_ARR_DEG: '23.5'
 }
 
+const exampple_doc_for_prediction =   {
+    YEAR: '2015',
+    MONTH: '1',
+    DAY: '1',
+    DAY_OF_WEEK: '4',
+    AIRLINE: 'WN',
+    FLIGHT_NUMBER: '473',
+    ORIGIN_AIRPORT: 'FLL',
+    DESTINATION_AIRPORT: 'TLV',
+    SCHEDULED_DEPARTURE: '1045',
+    DEPARTURE_TIME: '1046',
+    DEPARTURE_DELAY: '1',
+    TAXI_OUT: '19',
+    WHEELS_OFF: '1105',
+    SCHEDULED_TIME: '115',
+    ELAPSED_TIME: '118',
+    AIR_TIME: '89',
+    DISTANCE: '581',
+    WHEELS_ON: '1234',
+    TAXI_IN: '10',
+    SCHEDULED_ARRIVAL: '1240',
+    ARRIVAL_TIME: '1244',
+    ARRIVAL_DELAY: '4',
+    DISTANCE_TYPE: 'Short',
+    IS_HOLYDAY: 'false',
+    IS_VICATION: 'false',
+    WEATHER_DEP_DESC: 'Sunny',
+    WEATHER_DEP_DESC_CODE: '1000',
+    WEATHER_DEP_DEG: '21.2',
+    WEATHER_ARR_DESC: 'Sunny',
+    WEATHER_ARR_DESC_CODE: '1000',
+    WEATHER_ARR_DEG: '23.5'
+}
+
+localModel.predict(exampple_doc_for_prediction, 
+    function(error, prediction) {console.log(prediction)});
 /*
 MongoDB code snippet, base function:
 
@@ -114,37 +168,16 @@ async function findExample() {
     }
 }
 
-csvtojson()
-    .fromFile(__dirname + "/../Datasets/1000-data.csv")
-    .then(csvData => {
-        inserJson(csvData).catch(console.dir);
-});
-
-// async function run() {
-//     try {
-//         // await mongo.connect();
-//         const database = mongo.db(db_name);
-//         const movies = database.collection("test2");
-//         // query for movies that have a runtime less than 15 minutes
-//         const query = { YEAR: { $lt: 2500 } };
-//         const cursor = movies.find(query);
-//         // print a message if no documents were found
-//         if ((await cursor.count()) === 0) {
-//             console.log("No documents found!");
-//         }
-//         // replace console.dir with your callback to access individual elements
-//         await cursor.forEach(console.dir);
-//     } finally {
-//         await mongo.close();
-//     }
-// }
-// run().catch(console.dir);
-
-
+// csvtojson()
+//     .fromFile(__dirname + "/../Datasets/1000-data.csv")
+//     .then(csvData => {
+//         inserJson(csvData).catch(console.dir);
+// });
 
 
 // insertOne(exampple_doc).catch(console.dir);
 // findExample().catch(console.dir);
+
 
 
 
