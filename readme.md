@@ -21,6 +21,11 @@ Get-ExecutionPolicy
 docker run -d -p 2717:27017 -v ~/mongodb:/data/db --name airmongo mongo
 
 docker exec -it airmongo bash
+
+    mongosh
+    use <db name>
+    show collections
+    db.<collection name>.find()
 ```
 
 ```

@@ -4,9 +4,119 @@ const { MongoClient } = require('mongodb');
 const csvtojson = require("csvtojson");
 const app = express();
 
+const connection = new bigml.BigML('ShmuelLa', '1bbe994797b5fb7637e4590aa3c11bff420a548e');
+const model = new bigml.Model(connection);
+bigml.Prediction(connection)
+
+const localModel = new bigml.LocalModel('model/6318d5768be2aa4bb80001e8', connection);
+
+
+
+
 const url = "mongodb://localhost:2717";
 const mongo = new MongoClient(url);
 const db_name = "airdb"
+
+// model.get('model/6318d5768be2aa4bb80001e8',
+//     true,
+//     'only_model=true;limit=-1',
+//     function (error, resource) {
+//     if (!error && resource) {
+//     console.log(resource);
+//     }
+// })
+
+const exampple_doc =   {
+    YEAR: '2015',
+    MONTH: '1',
+    DAY: '1',
+    DAY_OF_WEEK: '4',
+    AIRLINE: 'WN',
+    FLIGHT_NUMBER: '473',
+    ORIGIN_AIRPORT: 'FLL',
+    DESTINATION_AIRPORT: 'TLV',
+    SCHEDULED_DEPARTURE: '1045',
+    DEPARTURE_TIME: '1046',
+    DEPARTURE_DELAY: '1',
+    TAXI_OUT: '19',
+    WHEELS_OFF: '1105',
+    SCHEDULED_TIME: '115',
+    ELAPSED_TIME: '118',
+    AIR_TIME: '89',
+    DISTANCE: '581',
+    WHEELS_ON: '1234',
+    TAXI_IN: '10',
+    SCHEDULED_ARRIVAL: '1240',
+    ARRIVAL_TIME: '1244',
+    ARRIVAL_DELAY: '4',
+    DELAY_TYPE: 'No Delay',
+    DISTANCE_TYPE: 'Short',
+    IS_HOLYDAY: 'false',
+    IS_VICATION: 'false',
+    WEATHER_DEP_DESC: 'Sunny',
+    WEATHER_DEP_DESC_CODE: '1000',
+    WEATHER_DEP_DEG: '21.2',
+    WEATHER_ARR_DESC: 'Sunny',
+    WEATHER_ARR_DESC_CODE: '1000',
+    WEATHER_ARR_DEG: '23.5'
+}
+
+const exampple_doc_for_prediction =   {
+    YEAR: '2015',
+    MONTH: '1',
+    DAY: '1',
+    DAY_OF_WEEK: '4',
+    AIRLINE: 'WN',
+    FLIGHT_NUMBER: '473',
+    ORIGIN_AIRPORT: 'FLL',
+    DESTINATION_AIRPORT: 'TLV',
+    SCHEDULED_DEPARTURE: '1045',
+    DEPARTURE_TIME: '1046',
+    DEPARTURE_DELAY: '1',
+    TAXI_OUT: '19',
+    WHEELS_OFF: '1105',
+    SCHEDULED_TIME: '115',
+    ELAPSED_TIME: '118',
+    AIR_TIME: '89',
+    DISTANCE: '581',
+    WHEELS_ON: '1234',
+    TAXI_IN: '10',
+    SCHEDULED_ARRIVAL: '1240',
+    ARRIVAL_TIME: '1244',
+    ARRIVAL_DELAY: '4',
+    DISTANCE_TYPE: 'Short',
+    IS_HOLYDAY: 'false',
+    IS_VICATION: 'false',
+    WEATHER_DEP_DESC: 'Sunny',
+    WEATHER_DEP_DESC_CODE: '1000',
+    WEATHER_DEP_DEG: '21.2',
+    WEATHER_ARR_DESC: 'Sunny',
+    WEATHER_ARR_DESC_CODE: '1000',
+    WEATHER_ARR_DEG: '23.5'
+}
+
+localModel.predict(exampple_doc_for_prediction, 
+    function(error, prediction) {console.log(prediction)});
+/*
+MongoDB code snippet, base function:
+
+    async function mongo_main() {
+        // Use connect method to connect to the server
+        await mongo.connect();
+        console.log('Connected successfully to server');
+        const db = mongo.db(db_name);
+        const collection = db.collection('test2');
+    
+        // the following code examples can be pasted here...
+    
+        return 'done.';
+    }
+
+    mongo_main()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => mongo.close());
+*/
 
 
 async function inserJson(csvData) {
@@ -22,75 +132,25 @@ async function inserJson(csvData) {
         await mongo.close();
     }
 }
-// // https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
-
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db(db_name);
-//     dbo.createCollection("test1", function(err, res) {
-//         if (err) throw err;
-//         console.log("test1 Collection created!");
-//         db.close();
-//     });
-// });
-
-// mongo.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("airdb");
-//     var myobj = {name: "El-Al", address: "E7445"};
-//     dbo.collection("test1").insertOne(myobj, function(err, res) {
-//         if (err) throw err;
-//         console.log("1 document inserted");
-//         db.close();
-//     });
-// });
-
-// mongodb.connect(
-//     url,
-//     // { useNewUrlParser: true, useUnifiedTopology: true },
-//     (err, client) => {
-//       if (err) throw err;
-//       client
-//         .collection("test1")
-//         .insertMany(csvData, (err, res) => {
-//           if (err) throw err;
-//           console.log(`Inserted: ${res.insertedCount} rows`);
-//           client.close();
-//         });
-//     }
-// );
 
 
-
-async function mongo_main() {
-    // Use connect method to connect to the server
-    await mongo.connect();
-    console.log('Connected successfully to server');
-    const db = mongo.db(db_name);
-    const collection = db.collection('test2');
-  
-    // the following code examples can be pasted here...
-  
-    return 'done.';
+async function insertOne(doc) {
+    try {
+        await mongo.connect();
+        const database = mongo.db(db_name);
+        const haiku = database.collection("test2");
+        const result = await haiku.insertOne(doc);
+        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    } finally {
+       await mongo.close();
+    }
 }
-
-mongo_main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => mongo.close());
-
-
-csvtojson()
-    .fromFile(__dirname + "/../Datasets/1000-data.csv")
-    .then(csvData => {
-        inserJson(csvData).catch(console.dir);
-});
 
 
 async function findExample() {
     try {
         await mongo.connect();
-        const database = client.db(db_name);
+        const database = mongo.db(db_name);
         const movies = database.collection("test2");
         // Query for a movie that has the title 'The Room'
         const query = { YEAR: '2015' };
@@ -102,12 +162,24 @@ async function findExample() {
         // };
         const movie = await movies.findOne(query);
         // since this method returns the matched document, not a cursor, print it directly
-        console.log(movie);
+        console.log(`A document was found with id: ${movie._id}`);
     } finally {
         await mongo.close();
     }
 }
-findExample().catch(console.dir);
+
+// csvtojson()
+//     .fromFile(__dirname + "/../Datasets/1000-data.csv")
+//     .then(csvData => {
+//         inserJson(csvData).catch(console.dir);
+// });
+
+
+// insertOne(exampple_doc).catch(console.dir);
+// findExample().catch(console.dir);
+
+
+
 
 app.listen(55551, function() {
 });
