@@ -1,25 +1,45 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const redis = require('redis');
+const redis = require('redis');
 
+const redisClient = redis.createClient({
+    host: '127.0.0.1',
+    port: 6379
+});
 
-// const redisClient = redis.createClient(6379,'127.0.0.1');
+async function nodeRedisDemo() {
+  try {
+    await redisClient.connect();
+    await redisClient.set('takeoff', 13);
+    await redisClient.set('landing', 13);
+    const myKeyValue1 = await redisClient.get('takeoff');
+    console.log(myKeyValue1);
+    const myKeyValue2 = await redisClient.get('landing');
+    console.log(myKeyValue2);
 
-// redisClient.on('error', (err) => {
-//     console.log('Error occured while connecting or accessing redis server');
-// });
+    // const numAdded = await redisClient.zAdd('flights', [
+    //   {
+    //     score: 4,
+    //     value: 'car',
+    //   },
+    //   {
+    //     score: 2,
+    //     value: 'bike',
+    //   },
+    // ]);
+    // console.log(`Added ${numAdded} items.`);
 
+    // for await (const { score, value } of redisClient.zScanIterator('flights')) {
+    //   console.log(`${value} -> ${score}`);
+    // }
 
-// if (!redisClient.get('dest_airport',redis.print)) {
-//     //create a new record
-//     redisClient.set('dest_airport','TLV', redis.print);
-//     console.log('Writing Property : dest_airport');
-// } else {
-//     let val = redisClient.get('dest_airport',redis.print);
-//     console.log(`Reading property : dest_airport - ${val}`);
-// }
+    await redisClient.quit();
+  } catch (e) {
+    console.error(e);
+  }
+}
 
-
+nodeRedisDemo();
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
