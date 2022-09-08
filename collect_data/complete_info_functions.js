@@ -1,18 +1,25 @@
 const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
+const air_labs_API_KEY = '1170dda1-31bb-4f88-a7f5-62f0f9fb82a2'
 
-
+const dayjs = require('dayjs');
+const axios = require('axios');
 //-------DATES------:
 
-function isSummerVacation(date) {
+function isSummerVacation(utc_date) {
     /**
-     * Get date in 'YYYY-MM-DD' format' and returns weather it's during summer vacation
+     * Get date in '2022-08-30 16:00' format' utc and returns weather it's during summer vacation
      */
-    date = new Date(date);
-    var start_vic = new Date(date.getFullYear() + '-06-20');
+   
+    date =  convertUtcStrToDateType(utc_date);
+    if(date!=null)
+    {var start_vic = new Date(date.getFullYear() + '-06-20');
     var end_vic = new Date(date.getFullYear() + '-09-01');
     return date > start_vic && date < end_vic;
-
 }
+return null;
+}
+
+
 function padTo2Digits(num) {
     /*
     * Date helper functions, convert number to 2 number format (from 1 to 01)
@@ -79,7 +86,11 @@ async function checkPreviousDay(date, word) {
 
 
 async function isJewishIsraelyHolyday(date) {
+    /**
+     * recives date in Date type' and return if it's a jewish holyday
+     */
     try {
+        date=formatDate(convertUtcStrToDateType(date))
         const response = await axios.get("https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1");
         /**
          * for each event which isn't "Parashat", if the first word appear the previes day/ or the previes day has "erev" it's an holyday.
@@ -133,14 +144,16 @@ function convertUtcStrToDateType(utc_date_str) {
 
 function convertUtcToLoaclTime(utc_date) {
     /**
-     * recive utc date in Date type
+     * recive utc date in '2022-08-30 16:00' format
      * return  string of local time
      */
+     utc_date=convertUtcStrToDateType(utc_date);
     if (utc_date != null) {
         return utc_date.toLocaleDateString() + ' ' + utc_date.toLocaleTimeString();
     }
     return null;
 }
+
 
 function minutesDifference(utc_date1, utc_date2) {
     /**
@@ -149,11 +162,33 @@ function minutesDifference(utc_date1, utc_date2) {
     if (utc_date1 != null && utc_date2 != null) { return (utc_date1.getTime() - utc_date2.getTime()) / 60000; }
     return null;
 }
+function getYearMonthDay(utc_time)
+{
+    /**
+     * Recive utc date in '2022-08-30 16:00' format
+     * return array of year, month, day, day_of_the_week
+     */
+    var date=convertUtcStrToDateType(utc_time);
+if(date!=null)
+{
+    return [date.getFullYear(),date.getMonth(),date.getDate(),date.getDay()+1];
+}}
+
+function getWeekDay(utc_time) 
+{
+    /**
+     * Recive utc date in '2022-08-30 16:00' format
+     * return the day of the week
+     */
+    return convertUtcStrToDateType(response.dep_time_utc).getDay() + 1;
+}
+
 
 //--------------Weather---------------
 // info from: api.weatherapi
 async function getWeatherForAirport(iata_code, date, hour) {
     /**
+     * excpect date in '2022-09-07 14:58' format
      * Get aitport iata code, date, and hour, (Must be in 24 hour. For example 5 pm should be hour=17, 6 am as hour=6)
      *  for a date on or after 1st Jan, 2010
      *  and return weather description, code matchinfg to the description, and the deg in celsius for the time.
@@ -162,6 +197,7 @@ async function getWeatherForAirport(iata_code, date, hour) {
      */
     
     try {
+        date=date.split(" ")[0];
         const response = await axios.get(`https://api.weatherapi.com/v1/history.json?key=${weather_api_API_KEY}&q=${iata_code}&dt=${date}&hour=${hour}`);
         var desc = response.data.forecast.forecastday[0].hour[0].condition.text;
         var desc_code = response.data.forecast.forecastday[0].hour[0].condition.code;
@@ -227,11 +263,11 @@ async function getCompanyName(iata, icao, httpAgent, httpsAgent) {
     var compony_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent});
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent});
             compony_name = res.data.response[0].name;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
             compony_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -243,40 +279,40 @@ async function getCompanyName(iata, icao, httpAgent, httpsAgent) {
     return compony_name;
 }
 
-async function getCountryName(iata, icao, httpAgent, httpsAgent) {
-    /**
-    * get company airport iata code or icao code.
-    */
-    var country_code = null
-    var country_name = null
-    try {
-        if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-            country_code = res.data.response[0].country_code;
-        }
-        else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-            country_code = res.data.response[0].country_code;
-        }
-        //console.log("country_code: " + country_code)
-        if (country_code != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-            country_name = res.data.response[0].name;
-        }
-    } catch (error) {
-        console.log(error)
-    }
+// async function getCountryName(iata, icao, httpAgent, httpsAgent) {
+//     /**
+//     * get company airport iata code or icao code.
+//     */
+//     var country_code = null
+//     var country_name = null
+//     try {
+//         if (iata != null) {
+//             let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
+//             country_code = res.data.response[0].country_code;
+//         }
+//         else if (icao != null) {
+//             let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
+//             country_code = res.data.response[0].country_code;
+//         }
+//         //console.log("country_code: " + country_code)
+//         if (country_code != null) {
+//             let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
+//             country_name = res.data.response[0].name;
+//         }
+//     } catch (error) {
+//         console.log(error)
+//     }
 
-    //console.log("country_name: " + country_name)
-    return country_name;
+//     //console.log("country_name: " + country_name)
+//     return country_name;
 
-}
+// }
 
 // distanse, and country name by airport code from sqlite file
 const sqlite3 = require('sqlite3').verbose();
 const SphericalUtil=require( "node-geometry-library").SphericalUtil;
 
-function get_lat_lon_for_airport(iata_code, icao_code) {
+function getLatLonForAirport(iata_code, icao_code) {
     /**
      * Return the lat and lon of a given airport.
      * (if has only icao_code, expects null in iata code)
@@ -307,15 +343,15 @@ function get_lat_lon_for_airport(iata_code, icao_code) {
 }
 
 
-async function distance_from_TLV(iata_code, icao_code) {
+async function distanceFromTLV(iata_code, icao_code) {
   /*
   * Return distanse in km between the given airport from ben-gurion, isreal airport
   * (if has only icao_code, expects null in iata code)
   * examples:
-  distance_from_TLV("TLV").then((ans)=>{console.log(ans)})
+  distanceFromTLV("TLV").then((ans)=>{console.log(ans)})
   *>> 0
   */
-  var lat_lng=await get_lat_lon_for_airport(iata_code, icao_code);
+  var lat_lng=await getLatLonForAirport(iata_code, icao_code);
 
   
   //ISREAL- lat_decimal: 32.009, lon_decimal: 34.877
@@ -355,7 +391,7 @@ function getCountryNameForAirport(iata_code, icao_code) {
     const db = new sqlite3.Database('./global_airports_sqlite.db');
     db.get(`SELECT country FROM 'airports'  where "${airports_type_string}"='${airports_code_string}';`, function (err, row) {
       if (err) reject(err);
-      resolve(row.country);
+      resolve(row);
     });
 
 
@@ -375,8 +411,8 @@ function delayStatus(minutes) {
 }
 function distanseStatus(km) {
     if (km != null) {
-        if (minutes <= 1500) { return 'Short'; }
-        else if ((minutes <= 3500)) { return 'Median'; }
+        if (km <= 1500) { return 'Short'; }
+        else if ((km <= 3500)) { return 'Median'; }
         else { return 'Long'; }
     }
     else {
@@ -397,7 +433,7 @@ function distanseStatus(km) {
 // minutesDifference
 // delayStatus
 // getCountryNameForAirport
-// distance_from_TLV
+// distanceFromTLV
 module.exports = { 
        
     isSummerVacation,
@@ -406,12 +442,13 @@ module.exports = {
     getWeatherForAirport,
     getNow,
     getCompanyName,
-    getCountryName,
+    getYearMonthDay,
+    minutesDifference,
+    distanceFromTLV,
     convertUtcStrToDateType,
     convertUtcToLoaclTime,
-    minutesDifference,
     delayStatus,
     getCountryNameForAirport,
-    distance_from_TLV,
+    distanceFromTLV,
     distanseStatus
  };
