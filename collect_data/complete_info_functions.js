@@ -1,6 +1,7 @@
 const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
-const air_labs_API_KEY = '1170dda1-31bb-4f88-a7f5-62f0f9fb82a2'
 
+//const air_labs_API_KEY = require('./real_time.js').air_labs_API_KEY
+const air_labs_API_KEY ='029b1dd4-70fd-42dd-8f7a-710223277df5'
 const dayjs = require('dayjs');
 const axios = require('axios');
 //-------DATES------:
@@ -124,7 +125,7 @@ function getNow() {
      * 26-08-2022  18:04:10
      */
     let today = dayjs();
-    return today.format("DD-MM-YYYY  HH:mm:ss");
+    return today.format("YYYY-MM-DDTHH:mm:ss");
 
 }
 function convertUtcStrToDateType(utc_date_str) {
@@ -256,18 +257,18 @@ async function getWeatherForAirport(iata_code, date, hour) {
 
 
 //------------------company name-----------------------
-async function getCompanyName(iata, icao, httpAgent, httpsAgent) {
+async function getCompanyName(iata, icao) {
     /**
      * get company name by its iata code or its icao code.
      */
     var compony_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent,  httpsAgent: httpsAgent});
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${air_labs_API_KEY}`);
             compony_name = res.data.response[0].name;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent });
+            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`);
             compony_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -437,7 +438,6 @@ function distanseStatus(km) {
 module.exports = { 
        
     isSummerVacation,
-    checkPreviousDay,
     isJewishIsraelyHolyday,
     getWeatherForAirport,
     getNow,

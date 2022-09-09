@@ -1,3 +1,5 @@
+
+
 -sql, for each real time- keep in sql full info.
 -seperate real time to historical
 -work with historical api
