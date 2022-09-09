@@ -40,5 +40,5 @@ var info={
     DIR: 123
   }
   producer.sendMessage(JSON.stringify(info),'prediction_request');
-  //consumer.consume('dash-board', 'prediction', 'prediction');
+  //consumer.consume_prediction('dash-board', 'prediction', 'prediction');
   
