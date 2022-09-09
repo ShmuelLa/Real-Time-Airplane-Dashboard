@@ -10,12 +10,18 @@ const host = process.env.HOST_IP || ip.address()
 const kafka = new Kafka({
   logLevel: logLevel.DEBUG,
   brokers: [`${host}:9092`],
-  clientId: 'data_collecter-producer',
+  clientId: 'big_ml',
 })
 
 //const topic = 'real-time-data'
 const producer = kafka.producer()
 
+//const getRandomNumber = () => Math.round(Math.random(10) * 1000)
+// const createMessage = num => ({
+//   key: `key-${num}`,
+//   value: "hello"
+//   // value: `value-${num}-${new Date().toISOString()}`,
+// })
 
 async function sendMessage(str_message,topic) {
   await producer.connect();
@@ -66,38 +72,3 @@ signalTraps.forEach(type => {
     }
   })
 })
-// {
-//   YEAR: 2022,
-//   MONTH: 8,
-//   DAY: 8,
-//   DAY_OF_WEEK: 5,
-//   AIRLINE_NAME: 'Lufthansa',
-//   AIRLINE_IATA_CODE: 'LH',
-//   FLIGHT_NUMBER: '684',
-//   FLIGHT_IATA_CODE: 'LH684',
-//   ORIGIN_AIRPORT_IATA: 'MUC',
-//   DESTINATION_AIRPORT_IATA: 'TLV',
-//   SCHEDULED_DEPARTURE: '8.9.2022 23:15:00',
-//   DEPARTURE_TIME: null,
-//   UPDATED_DEPARTURE_TIME: null,
-//   SCHEDULED_ARRIVAL: '9.9.2022 3:05:00',
-//   ARRIVAL_TIME: null,
-//   UPDATED_ARRIVAL_TIME: null,
-//   DEPARTURE_DELAY: null,
-//   ARRIVAL_DELAY: null,
-//   FLIGHT_STATUS: 'en-route',
-//   DELAY_TYPE: null,
-//   DISTANCE_TYPE: 'Median',
-//   IS_HOLYDAY: false,
-//   IS_VICATION: false,
-//   WEATHER_DEP_DESC: 'Clear',
-//   WEATHER_DEP_DESC_CODE: 1000,
-//   WEATHER_DEP_DEG: 12.7,
-//   WEATHER_ARR_DESC: 'Clear',
-//   WEATHER_ARR_DESC_CODE: 1000,
-//   WEATHER_ARR_DEG: 25.4,
-//   DEPARTURE_COUNTRY: 'GERMANY',
-//   ARRIVAL_COUNTRY: 'ISRAEL',
-//   LAT: 34.154068,
-//   LNG: 32.635281
-// }

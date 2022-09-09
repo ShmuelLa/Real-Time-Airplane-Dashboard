@@ -10,6 +10,8 @@ const kafka = new Kafka({
   clientId: 'data_collecter-consumer',
 })
 
+
+
 const topic = 'real-time-data'
 const consumer = kafka.consumer({ groupId: 'test-group' })
 
