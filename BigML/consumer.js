@@ -1,6 +1,8 @@
+
 const ip = require('ip')
 
 const { Kafka, logLevel } = require('kafkajs')
+const { sendMessage } = require('./producer')
 
 const host = process.env.HOST_IP || ip.address()
 
@@ -39,7 +41,8 @@ function consume(localModel) {
                 console.log(`- ${prefix} #${in_json} \n${airline}`);
                 localModel.predict(in_json,
                     function (error, prediction) {
-                        console.log(prediction.prediction)
+                        console.log(prediction.prediction);
+                        sendMessage(prediction.prediction,'prediction');
                     });
             },
         })

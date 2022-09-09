@@ -4,40 +4,42 @@ const { Kafka, logLevel } = require('kafkajs')
 
 const host = process.env.HOST_IP || ip.address()
 
-
-function consume(client_id, group_id, topic) {
-    const kafka = new Kafka({
-        logLevel: logLevel.INFO,
-        brokers: [`${host}:9092`],
-        clientId: client_id,
-    })
+const kafka = new Kafka({
+    logLevel: logLevel.INFO,
+    brokers: [`${host}:9092`],
+    clientId: 'dash-board',
+})
 
 
-
-    const topic = topic
-    const consumer = kafka.consumer({ groupId: group_id })
+consume_prediction()
+{
+    const topic = 'prediction';
+    const consumer = kafka.consumer({ groupId: "pred_big_ml" });
 
     const run = async () => {
-        await consumer.connect()
-        await consumer.subscribe({ topic, fromBeginning: true })
+        await consumer.connect();
+        await consumer.subscribe({ topic, fromBeginning: true });
         await consumer.run({
             // eachBatch: async ({ batch }) => {
             //   console.log(batch)
             // },
             eachMessage: async ({ topic, partition, message }) => {
                 const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
-                // try {
-                //     var in_json = JSON.parse(message.value);
-                //     var airline = in_json.AIRLINE_NAME;
-                // }
-                // catch (err) {
-                //     //console.log(err);
-                //     var in_json = message.value;
-                //     var airline = null;
-                // }
-                console.log(message.value);
+                try {
+                    var in_json = JSON.parse(message.value);
+                    var airline = in_json.AIRLINE_NAME;
+
+
+
+                }
+                catch (err) {
+                    //console.log(err);
+                    var in_json = message.value;
+                    var airline = null;
+                }
+                console.log(`- ${prefix} #${in_json} \n${airline}`)
             },
-        })
+        });
     }
 
     run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
@@ -56,7 +58,7 @@ function consume(client_id, group_id, topic) {
                 process.exit(1)
             }
         })
-    })
+    });
 
     signalTraps.forEach(type => {
         process.once(type, async () => {
@@ -66,7 +68,7 @@ function consume(client_id, group_id, topic) {
                 process.kill(process.pid, type)
             }
         })
-    })
+    });
 }
-module.exports={consume}
+module.exports = { consume_prediction }
 // function do_something()

@@ -7,17 +7,23 @@ const { Kafka, CompressionTypes, logLevel } = require('kafkajs')
 
 const host = process.env.HOST_IP || ip.address()
 
-const kafka = new Kafka({
-  logLevel: logLevel.DEBUG,
-  brokers: [`${host}:9092`],
-  clientId: 'data_collecter-producer',
-})
+
 
 //const topic = 'real-time-data'
-const producer = kafka.producer()
 
 
-async function sendMessage(str_message,topic) {
+
+async function sendMessage(str_message,topic,clientId) {
+  if(clientId === null)
+  {
+    clientId= 'data_collecter-producer';
+  }
+  const kafka = new Kafka({
+    logLevel: logLevel.DEBUG,
+    brokers: [`${host}:9092`],
+    clientId: clientId
+  })
+  const producer = kafka.producer()
   await producer.connect();
   //setInterval(async () => {
     try {
