@@ -40,3 +40,9 @@ docker run -d  -v ~/redis:/data --name airredis redis
 docker run -d -p 6379:6379 -v /redis:/data --name redis dockerfile/redis
 
 ```
+### BigML Serive
+
+NodeJS API docs:
+```
+https://github.com/bigmlcom/bigml-node/blob/master/docs/index.md
+```
