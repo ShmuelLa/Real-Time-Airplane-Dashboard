@@ -1,6 +1,6 @@
 const real_time_flights = require("./real_time");
 const producer = require("./producer");
-const consumer = require("./consume_2");
+// const consumer = require("./consume_2");
 
 //real_time_flights.get_real_time_flights();
 var info={
