@@ -15,6 +15,7 @@ const producer = require("./Kakfa/producer");
 
 const host = process.env.HOST_IP || ip.address()
 const io = new Server(server);
+const port = process.env.PORT || 55552
 
 
 const kafka = new Kafka({
@@ -67,5 +68,6 @@ app.get("/" , function(req, res){
 
 // consumer.consumePrediction();
 
-app.listen(55552, function() {
+app.listen(port, function() {
+  console.log("\n --==>> App started and listening on port: " + port)
 });
