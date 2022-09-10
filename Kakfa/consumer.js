@@ -16,7 +16,6 @@ const kafka = new Kafka({
 function bigmlModelConsume(localModel) {
     const topic = 'prediction_request'
     const consumer = kafka.consumer({ groupId: 'big-ml-pred' })
-
     const run = async () => {
         await consumer.connect()
         await consumer.subscribe({ topic, fromBeginning: true })
@@ -38,7 +37,7 @@ function bigmlModelConsume(localModel) {
                 console.log(`- ${prefix} #${in_json} \n${airline}`);
                 localModel.predict(in_json,
                     function (error, prediction) {
-                        console.log('\n\n\n' + prediction.prediction + '\n\n\n');
+                        console.log('\n[--+--]' + prediction.prediction + '\n\n\n');
                         sendMessage(prediction.prediction, 'prediction');
                     });
             },

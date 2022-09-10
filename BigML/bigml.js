@@ -96,17 +96,20 @@ function consumePredict(localModel) {
                 try {
                     var in_json = JSON.parse(message.value);
                     var airline = in_json.AIRLINE_NAME;
-                    console.log(`\n[--+--] Received for prediction:\n ${in_json}\n`);
+                    console.log(`\n[--+--] Received for prediction:`);
+                    console.log(in_json);
                 }
                 catch (err) {
                     //console.log(err);
                     var in_json = message.value;
                     var airline = null;
                 }
-                console.log(`- ${prefix} #${in_json} \n${airline}`);
+                // console.log(`- ${prefix} #${in_json} \n${airline}`);
                 localModel.predict(in_json,
                     function (error, prediction) {
-                        console.log(`\nResulting prediction: \n${prediction.prediction} for:\n${prediction}\n`);
+                        in_json["PREDICTION"] = prediction.prediction;
+                        console.log(`\nResulting prediction: ${prediction.prediction} for:\n${prediction}\n`);
+                        redis.redisSetJson(in_json.FLIGHT_NUMBER, in_json);
                         sendMessage(prediction.prediction, 'prediction');
                     });
             },

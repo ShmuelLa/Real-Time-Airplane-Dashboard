@@ -65,7 +65,55 @@ app.get("/" , function(req, res){
     res.sendFile(__dirname + "/index.html");
 });
 
-// consumer.consumePrediction();
+function consumePrediction() {
+  const topic = 'prediction'
+  const consumer = kafka.consumer({ groupId: 'big-ml-pred' })
+  const run = async () => {
+      await consumer.connect()
+      await consumer.subscribe({ topic, fromBeginning: true })
+      await consumer.run({
+          eachMessage: async ({ topic, partition, message }) => {
+              const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+              try {
+                  var result = JSON.parse(message.value);
+              }
+              catch (err) {
+                  var in_json = message.value;
+                  var airline = null;
+              }
+              // console.log(`- ${prefix} #${in_json} \n${airline}`);
+              console.log('\n[--+--]Received prediction:\n');
+              console.log(result);
+          },
+      })
+  }
+  run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
+  const errorTypes = ['unhandledRejection', 'uncaughtException']
+  const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
+  errorTypes.forEach(type => {
+      process.on(type, async e => {
+          try {
+              console.log(`process.on ${type}`)
+              console.error(e)
+              await consumer.disconnect()
+              process.exit(0)
+          } catch (_) {
+              process.exit(1)
+          }
+      })
+  })
+  signalTraps.forEach(type => {
+      process.once(type, async () => {
+          try {
+              await consumer.disconnect()
+          } finally {
+              process.kill(process.pid, type)
+          }
+      })
+  })
+}
+
+consumePrediction();
 
 app.listen(port, function() {
   console.log(`\n[--+--] App started and listening on port: ${port} \n`);

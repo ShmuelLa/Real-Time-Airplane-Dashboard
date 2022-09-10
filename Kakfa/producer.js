@@ -22,9 +22,10 @@ async function sendMessage(str_message, topic,clientId) {
           compression: CompressionTypes.GZIP,
           messages: [{value: str_message}],
         })
-      return console.log(`\n[--+--] Sending for prediction: \n${JSON.stringify(message.value)}\n`);
+        console.log(`\n[--+--] Sending for prediction:`);
+        return console.log(message);
     } catch (e) {
-      return console.error(`[example/producer] ${e.message}`, e)
+      return console.error(`[example/producer] ${e.message}`, e);
     }
   //}, 3000)
 }

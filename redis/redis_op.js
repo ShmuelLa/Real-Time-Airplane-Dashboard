@@ -4,12 +4,13 @@ const redisClient = redis.createClient({
     host: '127.0.0.1',
     port: 6379
 });
+redisClient.connect();
 
 async function redisSet(keystr, val) {
   try {
-    await redisClient.connect();
+    // await redisClient.connect();
     await redisClient.set(keystr, val);
-    await redisClient.quit();
+    // await redisClient.quit();
   } catch (e) {
     console.error(e);
   }
@@ -17,9 +18,9 @@ async function redisSet(keystr, val) {
 
 async function redisGet(keystr) {
   try {
-    await redisClient.connect();
+    // await redisClient.connect();
     const result = await redisClient.get(keystr);
-    await redisClient.quit();
+    // await redisClient.quit();
     return result;
   } catch (e) {
     console.error(e);
@@ -58,9 +59,9 @@ async function redisSetJson(keystr, jsonDict) {
   session by turning the object to a string and storing it on a single key
   */
   try {
-    await redisClient.connect();
+    // await redisClient.connect();
     await redisClient.set(keystr, JSON.stringify(jsonDict));
-    await redisClient.quit();
+    // await redisClient.quit();
     console.log('JSON Inserted successfuly to key: ' + keystr);
   } catch (e) {
     console.error(e);
@@ -73,16 +74,20 @@ async function redisGetJson(keystr) {
   session by parsing the received string to a JSON object
   */
   try {
-    await redisClient.connect();
+    // await redisClient.connect();
     const result = await redisClient.get(keystr);
     console.log('JSON Read successfuly from key: ' + keystr);
-    await redisClient.quit();
+    // await redisClient.quit();
     return JSON.parse(result);
   } catch (e) {
     console.error(e);
   }
 }
 
-
+module.exports = {redisGetJson,
+                  redisSetJson,
+                  redisSetList,
+                  redisGet,
+                  redisSet}
 // Test run for JSON getting:
 // redisGetJson('test').then(console.log);
