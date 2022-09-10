@@ -1,29 +1,19 @@
-//export HOST_IP=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
-//docker-compose up
-
 const ip = require('ip')
-
 const { Kafka, CompressionTypes, logLevel } = require('kafkajs')
 
 const host = process.env.HOST_IP || ip.address()
 
-const kafka = new Kafka({
-  logLevel: logLevel.DEBUG,
-  brokers: [`${host}:9092`],
-  clientId: 'big_ml',
-})
 
-//const topic = 'real-time-data'
-const producer = kafka.producer()
-
-//const getRandomNumber = () => Math.round(Math.random(10) * 1000)
-// const createMessage = num => ({
-//   key: `key-${num}`,
-//   value: "hello"
-//   // value: `value-${num}-${new Date().toISOString()}`,
-// })
-
-async function sendMessage(str_message,topic) {
+async function sendMessage(str_message,topic,clientId) {
+  if (clientId === null) {
+    clientId= 'data_collecter-producer';
+  }
+  const kafka = new Kafka({
+    logLevel: logLevel.DEBUG,
+    brokers: [`${host}:9092`],
+    clientId: clientId
+  })
+  const producer = kafka.producer()
   await producer.connect();
   //setInterval(async () => {
     try {
@@ -40,13 +30,6 @@ async function sendMessage(str_message,topic) {
   //}, 3000)
 }
 module.exports = {sendMessage}
-
-// const run = async () => {
-//   await producer.connect()
-//   setInterval(sendMessage, 3000)
-// }
-
-//run().catch(e => console.error(`[example/producer] ${e.message}`, e))
 
 const errorTypes = ['unhandledRejection', 'uncaughtException']
 const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
