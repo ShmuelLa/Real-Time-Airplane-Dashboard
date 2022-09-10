@@ -86,8 +86,7 @@ async function redisGetJson(keystr) {
 
 async function redisDel(keystr) {
   /*
-  Reads a JSON / Dictionary object from the current connected Redis client
-  session by parsing the received string to a JSON object
+  delete object from the current connected Redis client by key.
   */
   try {
     // await redisClient.connect();
