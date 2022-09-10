@@ -2,6 +2,8 @@
 
 first update nodejs:
 https://www.hostingadvice.com/how-to/update-node-js-latest-version/
+make sure to use Socket.io v4:
+https://socket.io/docs/v4/
 
 ### How to run nodemon on windows powershell:
 
