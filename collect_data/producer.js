@@ -14,8 +14,7 @@ const host = process.env.HOST_IP || ip.address()
 
 
 async function sendMessage(str_message,topic,clientId) {
-  if(clientId === null)
-  {
+  if(clientId === null) {
     clientId= 'data_collecter-producer';
   }
   const kafka = new Kafka({
