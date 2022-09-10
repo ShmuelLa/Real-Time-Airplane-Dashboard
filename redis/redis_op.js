@@ -100,11 +100,40 @@ async function redisDel(keystr) {
   }
 }
 
+async function redisInit() {
+  /*
+  Reads a JSON / Dictionary object from the current connected Redis client
+  session by parsing the received string to a JSON object
+  */
+  try {
+    redisClient.exists('landing', function (err, reply) {
+      if (reply === 1) {
+        console.log('\n[--+--] landing exists\n');
+      } else {
+        console.log('\n[--+--] landing doesn nott exists, setting\n');
+        redisSet('landing', 8);
+      }
+    });
+    redisClient.exists('takeoff', function (err, reply) {
+      if (reply === 1) {
+        console.log('\n[--+--] takeoff exists\n');
+      } else {
+        console.log('\n[--+--] takeoff doesn nott exists, setting\n');
+        redisSet('takeoff', 12);
+      }
+    });
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+
 module.exports = {redisGetJson,
                   redisSetJson,
                   redisSetList,
                   redisGet,
                   redisSet,
-                  redisDel}
+                  redisDel,
+                  redisInit}
 // Test run for JSON getting:
 // redisGetJson('test').then(console.log);
