@@ -16,19 +16,20 @@
   </script>
   <!-- for socket.io -->
   <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
-  <script src="socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
-    var socket = io.connect();
-    socket.on('userCount', function(data){
+    let socket = io();
+    socket.on('lanCount', function(data){
         console.log(data);
-        $('#getcount').html(data.userCount)
+        $('#Lnum').html(data.lanCount)
+    })
+    socket.on('takeCount', function(data){
+        console.log(data);
+        $('#TOnum').html(data.takeCount)
     })
   </script>
-  <!-- for clock -->
   <script src="clockApi.js" type="text/javascript">
-  </script>
-  <script src="mapApi.js" type="text/javascript">
   </script>
   
   <!-- for map -->
@@ -61,9 +62,7 @@
         <i class="fas fa-plane-arrival">
         </i>
        </h5>
-       <h3 id="Lnum">
-        9
-       </h3>
+       <h3 id="Lnum">9</h3>
       </button>
      </a>
     </div>
@@ -77,9 +76,7 @@
         <i class="fas fa-plane-departure">
         </i>
        </h5>
-       <h3 id="TOnum">
-        41
-       </h3>
+       <h3 id="TOnum">23</h3>
       </button>
      </a>
     </div>

@@ -1,20 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { disconnect } = require('process');
 const ip = require('ip');
 const { Kafka, CompressionTypes, logLevel } = require('kafkajs');
 const { Server } = require("socket.io");
 const app = express();
-const http = require('http');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
-const server = http.createServer(app);
+const http = require('http').Server(app);
+// const server = http.createServer(app);
+const io = require('socket.io')(http);
 
 const redis = require("./redis/redis_op");
 const producer = require("./Kakfa/producer");
 // const consumer = require("./Kakfa/consumer");
 
 const host = process.env.HOST_IP || ip.address()
-const io = new Server(server);
 const port = process.env.PORT || 55552
 
 
@@ -23,6 +24,8 @@ const kafka = new Kafka({
   brokers: [`${host}:9092`],
   clientId: 'data_collecter-producer'
 })
+
+
 
 const exampple_doc =   {
   YEAR: '2015',
@@ -59,13 +62,24 @@ const exampple_doc =   {
   WEATHER_ARR_DEG: '23.5'
 }
 
+redis.redisInit();
+
 producer.sendMessage(JSON.stringify(exampple_doc), 'prediction_request');
 
 app.get("/" , function(req, res){
     res.sendFile(__dirname + "/index.html");
 });
 
-function consumePrediction() {
+// async function updatePanel() {
+//     console.log("\n[--+--] Updating page\n");
+//     redis.redisGet('landing').then(console.log);
+//     redis.redisGet('landing').then(io.send());
+//     // io.sockets.emit('landingsNum', redis.redisGet('landing'));
+//     io.sockets.send(redis.redisGet('landing'));
+// }
+// setInterval(updatePanel, 3000);
+
+async function consumePrediction() {
   const topic = 'prediction'
   const consumer = kafka.consumer({ groupId: 'big-ml-pred' })
   const run = async () => {
@@ -115,6 +129,34 @@ function consumePrediction() {
 
 consumePrediction();
 
-app.listen(port, function() {
+http.listen(port, function() {
   console.log(`\n[--+--] App started and listening on port: ${port} \n`);
 });
+
+// io.on('connect', function (socket){
+//     setInterval(function () {
+//         console.log("\n[--+--] Updating page\n");
+//         let lanNum = redis.redisGet('landing');
+//         socket.send(lanNum)
+//     }, 3000)
+//     io.sockets.emit('userCount', {userCount:userCount});
+//     socket.on('disconnect', function(){
+//         console.log('disconnect');
+//     })
+// })
+
+io.sockets.on('connection', function (socket){
+    setInterval(function () {
+        console.log("\n[--+--] Updating page\n");
+        redis.redisGet('landing').then((res) => {
+            io.sockets.emit('lanCount', {lanCount:res});
+        })
+        redis.redisGet('takeoff').then((res) => {
+            io.sockets.emit('takeCount', {takeCount:res});
+        })
+    }, 3000)
+    socket.on('disconnect', function(){
+        console.log('disconnect');
+    })
+})
+
