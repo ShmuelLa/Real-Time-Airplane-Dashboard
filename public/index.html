@@ -14,11 +14,23 @@
   <!-- icons -->
   <script src="https://kit.fontawesome.com/37f4d7b91a.js">
   </script>
+  <!-- for socket.io -->
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    var socket = io.connect();
+    socket.on('userCount', function(data){
+        console.log(data);
+        $('#getcount').html(data.userCount)
+    })
+  </script>
   <!-- for clock -->
   <script src="clockApi.js" type="text/javascript">
   </script>
   <script src="mapApi.js" type="text/javascript">
   </script>
+  
   <!-- for map -->
   <script async="" defer="" src="http://www.bing.com/api/maps/mapcontrol?callback=GetMap&amp;key=[YOUR_BING_MAPS_KEY]" type="text/javascript">
   </script>
@@ -28,6 +40,7 @@
    function GetMap()
     {
         var map = new Microsoft.Maps.Map('#myMap');
+
         //Add your post map load code here.
     }
   </script>
@@ -42,7 +55,7 @@
      <a class="footer-link" href="landing.html">
       <button class="btn btn-dark btn-lg Dashboard" type="button">
        <h5>
-        Flights awaiting landing
+        Flights waiting to landing
        </h5>
        <h5>
         <i class="fas fa-plane-arrival">
@@ -58,7 +71,7 @@
      <a class="footer-link" href="takeoff.html">
       <button class="btn btn-dark btn-lg Dashboard" type="button">
        <h5>
-        Flights awaiting take-off
+        Flights waiting to take off
        </h5>
        <h5>
         <i class="fas fa-plane-departure">
@@ -72,6 +85,9 @@
     </div>
     <div class="col-lg-4 feature-box">
      <button class="btn btn-dark btn-lg Dashboard" id="weather" type="button">
+      <!-- <h5>
+       Weather and temperature
+      </h5> -->
       <script defer="" src="https://apps.elfsight.com/p/platform.js">
       </script>
       <div class="elfsight-app-ec86fac8-abab-4c01-9e0e-6dc1805f3a20">
@@ -81,6 +97,11 @@
    </div>
   </section>
 
+
+
+
+
+
   <section class="map" id="">
    <div class="mapArea" style="margin-bottom: 50px;">
     <div class="myMap" >
@@ -89,13 +110,34 @@
    </div>
   </section>
 
-  <section class="" id="clockArea">
-   <div class="bottomclass">
-    <div class="btn-dark" id="clock">
-     <h2 id="date-time">
-     </h2>
-    </div>
-   </div>
-  </section>
+
+
+    <section class="bottomclass">
+        <div class="row">
+            <div class="col-lg-4 feature-box">
+                <div class="btn-dark clock">
+                <h2 id="date-time">
+                </h2>
+                </div>
+            </div>
+
+            <div class="col-lg-8 feature-box">
+                <div class="btn-dark bigml" >
+                <h2 style = "padding-bottom: 10px; padding-top: 20px;">Big-ML Model</h2>
+                <span style = "padding-right: 5px; padding-bottom: 10px; font-size:1.5rem">From:</span>
+                <span><input style = "padding-right: 20px;" type="date" id="start" name="trip-start"
+                    value="2022-09-11"
+                    min="2018-01-01" max="2022-09-11"></span>
+                <span style = "padding-left: 20px; padding-right: 5px; padding-bottom: 10px; font-size:1.5rem">to:</span>
+                <span><input style = "padding-right: 20px; margin-right: 20px;" type="date" id="start" name="trip-start"
+                    value="2022-09-11"
+                    min="2018-01-01" max="2022-09-11"></span>
+                <span><div class = "btn-primary">select</div></span>
+                </div>
+            </div>
+        </div>    
+    </section>
+  
+  
  </body>
 </html>
