@@ -84,10 +84,27 @@ async function redisGetJson(keystr) {
   }
 }
 
+async function redisDel(keystr) {
+  /*
+  Reads a JSON / Dictionary object from the current connected Redis client
+  session by parsing the received string to a JSON object
+  */
+  try {
+    // await redisClient.connect();
+    const result = await redisClient.del(keystr);
+    console.log('deleted key ' + keystr);
+    // await redisClient.quit();
+    return JSON.parse(result);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 module.exports = {redisGetJson,
                   redisSetJson,
                   redisSetList,
                   redisGet,
-                  redisSet}
+                  redisSet,
+                  redisDel}
 // Test run for JSON getting:
 // redisGetJson('test').then(console.log);

@@ -1,7 +1,8 @@
 const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
+const redis_op = require("./../redis/redis_op");
 
 //const air_labs_API_KEY = require('./real_time.js').air_labs_API_KEY
-const air_labs_API_KEY ='029b1dd4-70fd-42dd-8f7a-710223277df5'
+const air_labs_API_KEY ='5bec8d15-d69c-458c-b442-098c07131436'
 const dayjs = require('dayjs');
 const axios = require('axios');
 //-------DATES------:
@@ -26,6 +27,19 @@ function padTo2Digits(num) {
     * Date helper functions, convert number to 2 number format (from 1 to 01)
     */
     return num.toString().padStart(2, '0');
+}
+function formatDateYMD(day,month,year)
+{
+    
+
+    return [
+        year,
+        padTo2Digits(month),
+        padTo2Digits(day)
+
+        
+    ].join('-');
+
 }
 
 function formatDate(date) {
@@ -101,19 +115,19 @@ async function isJewishIsraelyHolyday(date) {
             if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
                 let first = element.split(' ')[0];
                 if (element.includes("Erev")) {//if erev chag
-                    return true;
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
                 }
                 if (await checkPreviousDay(date, first))// check if yestorday is another day of the same chag 
                 {
                     console.log("True- first: " + element + " " + first)
-                    return true;
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
                 }
                 if (await checkPreviousDay(date, "Erev")) {//check if yestorday is erev chag
-                    return true;
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
                 }
             }
         }
-        return false;
+        return [false,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
 
     }
     catch (err) { console.log(err); }
@@ -203,7 +217,7 @@ async function getWeatherForAirport(iata_code, date, hour) {
         var desc = response.data.forecast.forecastday[0].hour[0].condition.text;
         var desc_code = response.data.forecast.forecastday[0].hour[0].condition.code;
         var deg = response.data.forecast.forecastday[0].hour[0].feelslike_c;
-        return [desc, desc_code, deg];
+        return [desc, desc_code, deg,'https://api.weatherapi.com/v1/history.json',response];
 
 
         /*
@@ -261,14 +275,15 @@ async function getCompanyName(iata, icao) {
     /**
      * get company name by its iata code or its icao code.
      */
+    var res;
     var compony_name = null
     try {
         if (iata != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${air_labs_API_KEY}`);
+            res = await axios.get(`https://airlabs.co/api/v9/airlines?iata_code=${iata}&api_key=${air_labs_API_KEY}`);
             compony_name = res.data.response[0].name;
         }
         else if (icao != null) {
-            let res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`);
+            res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`);
             compony_name = res.data.response[0].name;
         }
     } catch (error) {
@@ -277,37 +292,10 @@ async function getCompanyName(iata, icao) {
 
 
     //console.log("company name: " + compony_name)
-    return compony_name;
+    return [compony_name,`https://airlabs.co/api/v9/airlines`,res];
 }
 
-// async function getCountryName(iata, icao, httpAgent, httpsAgent) {
-//     /**
-//     * get company airport iata code or icao code.
-//     */
-//     var country_code = null
-//     var country_name = null
-//     try {
-//         if (iata != null) {
-//             let res = await axios.get(`https://airlabs.co/api/v9/airports?iata_code=${iata}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-//             country_code = res.data.response[0].country_code;
-//         }
-//         else if (icao != null) {
-//             let res = await axios.get(`https://airlabs.co/api/v9/airports??icao_code=${icao}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-//             country_code = res.data.response[0].country_code;
-//         }
-//         //console.log("country_code: " + country_code)
-//         if (country_code != null) {
-//             let res = await axios.get(`https://airlabs.co/api/v9/countries?code=${country_code}&api_key=${airlabs_API_KEY}`, { httpAgent: httpAgent, httpsAgent: httpsAgent});
-//             country_name = res.data.response[0].name;
-//         }
-//     } catch (error) {
-//         console.log(error)
-//     }
 
-//     //console.log("country_name: " + country_name)
-//     return country_name;
-
-// }
 
 // distanse, and country name by airport code from sqlite file
 const sqlite3 = require('sqlite3').verbose();
@@ -421,20 +409,65 @@ function distanseStatus(km) {
     }
 }
 
-// getPreviousDay
-// isSummerVacation
-// checkPreviousDay
-// isJewishIsraelyHolyday
-// getWeatherForAirport
-// getNow
-// getCompanyName
-// getCountryName
-// convertUtcStrToDateType
-// convertUtcToLoaclTime
-// minutesDifference
-// delayStatus
-// getCountryNameForAirport
-// distanceFromTLV
+
+
+
+
+async function update_redis(flight_json, arriving_flights, depurturing_flights) {
+    console.log("-----------redis---------------")
+    if (flight_json.DESTINATION_AIRPORT_IATA == 'TLV')//landing
+    {
+        if (flight_json.FLIGHT_STATUS == 'landed') {
+            if (arriving_flights.has(flight_json.FLIGHT_IATA_CODE)) {
+                arriving_flights.delete(flight_json.FLIGHT_IATA_CODE);
+                await redisDel(flight_json.FLIGHT_IATA_CODE);
+            }
+        }
+
+        else {
+            var date_time_arr = flight_json.SCHEDULED_ARRIVAL.split(' ');
+            var date = date_time_arr[0].split('.');
+            var date_type = new Date(formatDateYMD(date[0], date[1], date[2]) + " " + date_time_arr[1]);
+
+            console.log(date_type)
+            if ((minutesDifference(date_type, new Date()) < 15) <= 15) {
+                arriving_flights.set(flight_json.FLIGHT_IATA_CODE,flight_json);
+                await redis_op.redisSetJson(flight_json.FLIGHT_IATA_CODE,flight_json);
+
+            }
+        }
+        await redis_op.redisSet("landing",arriving_flights.size);
+
+    }
+
+
+    else if (flight_json.ORIGIN_AIRPORT_IATA == 'TLV')//depurtering
+    {
+        if (flight_json.FLIGHT_STATUS != 'scheduled') {
+            if (depurturing_flights.has(flight_json.FLIGHT_IATA_CODE)) {
+                depurturing_flights.delete(flight_json.FLIGHT_IATA_CODE);
+                redisDel(flight_json.FLIGHT_IATA_CODE);
+            }
+        }
+
+        else {
+            var date_time_arr = flight_json.SCHEDULED_DEPARTURE.split(' ');
+            var date = date_time_arr[0].split('.');
+            var date_type = new Date(formatDateYMD(date[0], date[1], date[2]) + " " + date_time_arr[1]);
+
+            console.log(date_type)
+            if ((minutesDifference(date_type, new Date())) <= 15) {
+                depurturing_flights.set(flight_json.FLIGHT_IATA_CODE,flight_json);
+                await redis_op.redisSetJson(flight_json.FLIGHT_IATA_CODE,flight_json);
+
+            }
+        }
+        await redis_op.redisSet("takeoff",depurturing_flights.size);
+
+
+    }
+}
+
 module.exports = { 
        
     isSummerVacation,
@@ -450,5 +483,7 @@ module.exports = {
     delayStatus,
     getCountryNameForAirport,
     distanceFromTLV,
-    distanseStatus
+    distanseStatus,
+    formatDateYMD,
+    update_redis
  };
