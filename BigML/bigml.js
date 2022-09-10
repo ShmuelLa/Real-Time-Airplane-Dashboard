@@ -72,11 +72,6 @@ const exampple_doc_for_prediction =   {
 
 // consumer.bigmlModelConsume(localModel);
 
-// localModel.predict(ans, 
-//     function(error, prediction) {console.log(prediction)});
-// localModel.predict(exampple_doc_for_prediction, 
-//     function(error, prediction) {console.log(prediction)});
-
 
 // insertOne(exampple_doc).catch(console.dir);
 // findExample().catch(console.dir);
