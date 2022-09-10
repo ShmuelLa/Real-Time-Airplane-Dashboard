@@ -27,7 +27,6 @@ a, p{
 }
 
 .Dashboard{
-  border-color: white;
   margin: 5% 3% 5% 3%;
 
 }
@@ -63,14 +62,6 @@ a, p{
   margin-top: 16px;
 }
 
-#clock{
-  width: 200px;
-  margin: auto;
-  text-align: center;
-  border: 2px solid white;
-  border-radius: 20px;
-  color: white;
-}
 
 #airlabs{
   height: 600px;
@@ -94,7 +85,7 @@ a, p{
 }
 
 .bottomclass{
-  padding-top: 50px;
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -120,7 +111,32 @@ a, p{
   color: inherit;
 }
 
+.clock{
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  /* border: 2px solid white; */
+  border-radius: 20px;
+  color: white;
+}
 
+.bigml{
+  width: 700px;
+  text-align: center;
+  /* border: 2px solid black; */
+  border-radius: 20px;
+  color: white;
+}
 
-
+.btn-primary{
+  font-size:1.3rem;
+  padding: 0px 10px ;
+  /* border: 2px solid black; */
+  margin-bottom: 10px;
+  margin-left: 10px;
+  border-radius: 20px;
+  width: auto;
+  display: inline-block
+  
+}
 
