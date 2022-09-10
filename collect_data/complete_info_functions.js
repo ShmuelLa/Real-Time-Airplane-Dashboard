@@ -2,7 +2,7 @@ const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
 const redis_op = require("./../redis/redis_op");
 
 //const air_labs_API_KEY = require('./real_time.js').air_labs_API_KEY
-const air_labs_API_KEY ='5bec8d15-d69c-458c-b442-098c07131436'
+const air_labs_API_KEY ='6e6b9c47-3260-4d1e-909c-21375f29557d'
 const dayjs = require('dayjs');
 const axios = require('axios');
 //-------DATES------:

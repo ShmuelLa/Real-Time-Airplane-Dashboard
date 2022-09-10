@@ -3,7 +3,7 @@ const lib_complete_info = require("./complete_info_functions");
 const my_sql = require("./my_sql");
 
 const axios = require('axios');//get url
-const air_labs_API_KEY = '5bec8d15-d69c-458c-b442-098c07131436'
+const air_labs_API_KEY = '6e6b9c47-3260-4d1e-909c-21375f29557d'
 var airlabs_webcite = "https://airlabs.co/"
 
 
@@ -63,7 +63,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var res_including_api_info = await lib_complete_info.isJewishIsraelyHolyday(time_info.dep_time_utc);
                 var is_holyday=res_including_api_info[0];
                 my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
-
+                console.log({"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
                 var year_month_day_day_of_the_week = lib_complete_info.getYearMonthDay(time_info.dep_time_utc);
                 var year = year_month_day_day_of_the_week[0];
                 var f_month = year_month_day_day_of_the_week[1];
@@ -113,7 +113,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                     "DEPARTURE_COUNTRY": depurture_country_name.country, "ARRIVAL_COUNTRY": arrival_country_name.country, "LAT": res.lat,"LNG": res.lng,"DIR":res.dir,"PREDICTION": 'Calculating'};
                     console.log(info);
                     await lib_complete_info.update_redis(info,arriving_flights,depurturing_flights);
-
+                    throw Error ('not');
             //    await producer.sendMessage(JSON.stringify(info),'real-time-data');
             }
             catch(err){
