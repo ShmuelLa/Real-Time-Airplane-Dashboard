@@ -96,6 +96,7 @@ function consumePredict(localModel) {
                 try {
                     var in_json = JSON.parse(message.value);
                     var airline = in_json.AIRLINE_NAME;
+                    console.log(`\n[--+--] Received for prediction:\n ${in_json}\n`);
                 }
                 catch (err) {
                     //console.log(err);
@@ -105,7 +106,7 @@ function consumePredict(localModel) {
                 console.log(`- ${prefix} #${in_json} \n${airline}`);
                 localModel.predict(in_json,
                     function (error, prediction) {
-                        console.log('\n\n\n' + prediction.prediction + '\n\n\n');
+                        console.log(`\nResulting prediction: \n${prediction.prediction} for:\n${prediction}\n`);
                         sendMessage(prediction.prediction, 'prediction');
                     });
             },
