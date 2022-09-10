@@ -1,6 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const redis = require('redis');
+const ip = require('ip');
+const { Kafka, CompressionTypes, logLevel } = require('kafkajs');
+const host = process.env.HOST_IP || ip.address()
+
+const redis = require("./redis/redis_op");
+const producer = require("./collect_data/producer");
+
+const kafka = new Kafka({
+  logLevel: logLevel.DEBUG,
+  brokers: [`${host}:9092`],
+  clientId: 'data_collecter-producer'
+})
 
 const exampple_doc =   {
   YEAR: '2015',
@@ -37,91 +48,27 @@ const exampple_doc =   {
   WEATHER_ARR_DEG: '23.5'
 }
 
-const redisClient = redis.createClient({
-    host: '127.0.0.1',
-    port: 6379
-});
 
-async function redisSet(keystr, val) {
+async function sendMessage(str_message, topic, clientId) {
+  const producer = kafka.producer()
+  await producer.connect();
   try {
-    await redisClient.connect();
-    await redisClient.set(keystr, val);
-    await redisClient.quit();
+    const message = await producer
+      .send({
+        topic,
+        compression: CompressionTypes.GZIP,
+        messages: [{value: str_message}],
+      })
+    return console.log(message)
   } catch (e) {
-    console.error(e);
+    return console.error(`[example/producer] ${e.message}`, e)
   }
 }
 
-async function redisGet(keystr) {
-  try {
-    await redisClient.connect();
-    const result = await redisClient.get(keystr);
-    await redisClient.quit();
-    return result;
-  } catch (e) {
-    console.error(e);
-  }
-}
+sendMessage(JSON.stringify(exampple_doc), 'prediction_request');
+// producer.sendMessage(JSON.stringify(exampple_doc),'prediction_request');
 
-async function redisSetList(keystr, lst) {
-  /*
-  Inserts a list to the current redis client session
 
-  Example: 
-      const numAdded = await redisClient.zAdd(keystr, [
-      {
-        score: 4,
-        value: 'car',
-      },
-      {
-        score: 2,
-        value: 'bike',
-      },
-    ]);
-  */
-  try {
-    await redisClient.connect();
-    console.log(`Added ${numAdded} items.`);
-    const numAdded = await redisClient.zAdd(keystr, lst);
-    await redisClient.quit();
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function redisSetJson(keystr, jsonDict) {
-  /*
-  Inserts a JSON / Dictionary object to the current connected Redis client
-  session by turning the object to a string and storing it on a single key
-  */
-  try {
-    await redisClient.connect();
-    await redisClient.set(keystr, JSON.stringify(jsonDict));
-    await redisClient.quit();
-    console.log('JSON Inserted successfuly to key: ' + keystr);
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function redisGetJson(keystr) {
-  /*
-  Reads a JSON / Dictionary object from the current connected Redis client
-  session by parsing the received string to a JSON object
-  */
-  try {
-    await redisClient.connect();
-    const result = await redisClient.get(keystr);
-    console.log('JSON Read successfuly from key: ' + keystr);
-    await redisClient.quit();
-    return JSON.parse(result);
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-// Test run for JSON getting:
-// redisGetJson('test').then(console.log);
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
@@ -130,6 +77,56 @@ app.use(express.static('public'));
 app.get("/" , function(req, res){
     res.sendFile(__dirname + "/index.html");
 });
+
+
+
+function consumePrediction() {
+  const topic = 'prediction'
+  const consumer = kafka.consumer({ groupId: 'big-ml-pred' })
+  const run = async () => {
+      await consumer.connect()
+      await consumer.subscribe({ topic, fromBeginning: true })
+      await consumer.run({
+          eachMessage: async ({ topic, partition, message }) => {
+              const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+              try {
+                  var result = JSON.parse(message.value);
+              }
+              catch (err) {
+                  var in_json = message.value;
+                  var airline = null;
+              }
+              console.log(`- ${prefix} #${in_json} \n${airline}`);
+              console.log('\n\n\n' + result + '\n\n\n');
+          },
+      })
+  }
+  run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
+  const errorTypes = ['unhandledRejection', 'uncaughtException']
+  const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
+  errorTypes.forEach(type => {
+      process.on(type, async e => {
+          try {
+              console.log(`process.on ${type}`)
+              console.error(e)
+              await consumer.disconnect()
+              process.exit(0)
+          } catch (_) {
+              process.exit(1)
+          }
+      })
+  })
+  signalTraps.forEach(type => {
+      process.once(type, async () => {
+          try {
+              await consumer.disconnect()
+          } finally {
+              process.kill(process.pid, type)
+          }
+      })
+  })
+}
+consumePrediction();
 
 app.listen(55552, function() {
 });

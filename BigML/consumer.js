@@ -1,7 +1,7 @@
 
 const ip = require('ip')
 
-const { Kafka, logLevel } = require('kafkajs')
+const { Kafka, logLevel, Partitioners } = require('kafkajs')
 const { sendMessage } = require('./producer')
 
 const host = process.env.HOST_IP || ip.address()
@@ -9,7 +9,7 @@ const host = process.env.HOST_IP || ip.address()
 const kafka = new Kafka({
     logLevel: logLevel.INFO,
     brokers: [`${host}:9092`],
-    clientId: 'big-ml-consumer',
+    clientId: 'big-ml-consumer'
 })
 
 
@@ -29,9 +29,6 @@ function consume(localModel) {
                 try {
                     var in_json = JSON.parse(message.value);
                     var airline = in_json.AIRLINE_NAME;
-
-
-
                 }
                 catch (err) {
                     //console.log(err);
@@ -41,8 +38,8 @@ function consume(localModel) {
                 console.log(`- ${prefix} #${in_json} \n${airline}`);
                 localModel.predict(in_json,
                     function (error, prediction) {
-                        console.log(prediction.prediction);
-                        sendMessage(prediction.prediction,'prediction');
+                        console.log('\n\n\n' + prediction.prediction + '\n\n\n');
+                        sendMessage(prediction.prediction, 'prediction');
                     });
             },
         })

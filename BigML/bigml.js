@@ -1,19 +1,28 @@
-const consumer = require("./consumer");
-
-
 const bigml = require('bigml');
 const express = require("express");
 const { MongoClient } = require('mongodb');
 const csvtojson = require("csvtojson");
 const app = express();
+const ip = require('ip');
+const { Kafka, logLevel, Partitioners } = require('kafkajs')
+const { sendMessage } = require('./producer')
+
+const consumer = require("./consumer");
+const redis = require("./../redis/redis_op");
+
 
 const connection = new bigml.BigML('ShmuelLa', '1bbe994797b5fb7637e4590aa3c11bff420a548e');
 const model = new bigml.Model(connection);
 bigml.Prediction(connection)
-
 const localModel = new bigml.LocalModel('model/6318d5768be2aa4bb80001e8', connection);
 
+const host = process.env.HOST_IP || ip.address()
 
+const kafka = new Kafka({
+    // logLevel: logLevel.INFO,
+    brokers: [`${host}:9092`],
+    clientId: 'big-ml-consumer'
+})
 
 
 const url = "mongodb://localhost:2717";
@@ -97,6 +106,7 @@ const exampple_doc_for_prediction =   {
     WEATHER_ARR_DESC_CODE: '1000',
     WEATHER_ARR_DEG: '23.5'
 }
+
 const ans={
     YEAR: 2022,
     MONTH: 8,
@@ -132,8 +142,10 @@ const ans={
     LAT: 33.140446,
     LNG: 33.058479,
     DIR: 123
-  }
-consumer.consume(localModel);
+}
+
+// consumer.consume(localModel);
+
 // localModel.predict(ans, 
 //     function(error, prediction) {console.log(prediction)});
 // localModel.predict(exampple_doc_for_prediction, 
@@ -219,9 +231,67 @@ async function findExample() {
 // insertOne(exampple_doc).catch(console.dir);
 // findExample().catch(console.dir);
 
+function consumePredict(localModel) {
+    const topic = 'prediction_request'
+    const consumer = kafka.consumer({ groupId: 'big-ml-pred' })
+    const run = async () => {
+        await consumer.connect()
+        await consumer.subscribe({ topic, fromBeginning: true })
+        await consumer.run({
+            // eachBatch: async ({ batch }) => {
+            //   console.log(batch)
+            // },
+            eachMessage: async ({ topic, partition, message }) => {
+                const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+                try {
+                    var in_json = JSON.parse(message.value);
+                    var airline = in_json.AIRLINE_NAME;
+                }
+                catch (err) {
+                    //console.log(err);
+                    var in_json = message.value;
+                    var airline = null;
+                }
+                console.log(`- ${prefix} #${in_json} \n${airline}`);
+                localModel.predict(in_json,
+                    function (error, prediction) {
+                        console.log('\n\n\n' + prediction.prediction + '\n\n\n');
+                        sendMessage(prediction.prediction, 'prediction');
+                    });
+            },
+        })
+    }
+    run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
 
+    const errorTypes = ['unhandledRejection', 'uncaughtException']
+    const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 
+    errorTypes.forEach(type => {
+        process.on(type, async e => {
+            try {
+                console.log(`process.on ${type}`)
+                console.error(e)
+                await consumer.disconnect()
+                process.exit(0)
+            } catch (_) {
+                process.exit(1)
+            }
+        })
+    })
 
-app.listen(55551, function() {
+    signalTraps.forEach(type => {
+        process.once(type, async () => {
+            try {
+                await consumer.disconnect()
+            } finally {
+                process.kill(process.pid, type)
+            }
+        })
+    })
+}
+
+consumePredict(localModel);
+
+app.listen(55553, function() {
 });
 
