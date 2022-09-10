@@ -35,7 +35,7 @@ async function inserJson(csvData) {
         // this option prevents additional documents from being inserted if one fails
         const options = { ordered: true };
         const result = await mongoCol.insertMany(csvData, options);
-        console.log(`${result.insertedCount} documents were inserted`);
+        console.log(`\n\n--==>> ${result.insertedCount} documents were inserted\n\n`);
     } finally {
         await mongo.close();
     }
@@ -75,18 +75,25 @@ async function findExample() {
     }
 }
 
-csvtojson()
-    .fromFile(__dirname + "/../Datasets/1000-data.csv")
-    .then(csvData => {
-        inserJson(csvData).catch(console.dir);
-});
+
 
 async function initMongo() {
     try {
         await mongo.connect();
         const database = mongo.db(db_name);
         const mongoCol = database.collection(collection_name);
-        console.log(`--==>>    Collection doc count: ` + mongoCol.countDocuments());
+        const count = await mongoCol.countDocuments();
+        if (count == 0) {
+            csvtojson()
+                .fromFile(__dirname + "/../Datasets/1000-data.csv")
+                .then(csvData => {
+                    inserJson(csvData).catch(console.dir);
+            });
+            console.log(`--==>>    Collection was initialized from file: ` + count);
+        }
+        else {
+            console.log(`--==>>    Collection is already initialized: ` + count);
+        }
     } finally {
         await mongo.close();
     }
@@ -95,3 +102,5 @@ async function initMongo() {
 
 // insertOne(exampple_doc).catch(console.dir);
 // findExample().catch(console.dir);
+
+module.exports = {initMongo}
