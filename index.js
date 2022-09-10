@@ -65,9 +65,8 @@ app.get("/" , function(req, res){
     res.sendFile(__dirname + "/index.html");
 });
 
-
 // consumer.consumePrediction();
 
 app.listen(port, function() {
-  console.log("\n --==>> App started and listening on port: " + port)
+  console.log(`\n[--+--] App started and listening on port: ${port} \n`);
 });

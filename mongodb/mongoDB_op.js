@@ -35,7 +35,7 @@ async function inserJson(csvData) {
         // this option prevents additional documents from being inserted if one fails
         const options = { ordered: true };
         const result = await mongoCol.insertMany(csvData, options);
-        console.log(`\n\n--==>> ${result.insertedCount} documents were inserted\n\n`);
+        console.log(`\n[--+--] ${result.insertedCount} documents were inserted\n`);
     } finally {
         await mongo.close();
     }
@@ -47,7 +47,7 @@ async function insertOne(doc) {
         const database = mongo.db(db_name);
         const mongoCol = database.collection(collection_name);
         const result = await mongoCol.insertOne(doc);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        console.log(`\n[--+--] A document was inserted with the _id: ${result.insertedId}\n`);
     } finally {
        await mongo.close();
     }
@@ -69,12 +69,11 @@ async function findExample() {
         // };
         const movie = await mongoCol.findOne(query);
         // since this method returns the matched document, not a cursor, print it directly
-        console.log(`A document was found with id: ${movie._id}`);
+        console.log(`\n[--+--]A document was found with id: ${movie._id}\n`);
     } finally {
         await mongo.close();
     }
 }
-
 
 
 async function initMongo() {
@@ -89,10 +88,10 @@ async function initMongo() {
                 .then(csvData => {
                     inserJson(csvData).catch(console.dir);
             });
-            console.log(`--==>>    Collection was initialized from file: ` + count);
+            console.log(`\n[--+--] Collection was initialized from file: currnet coun = ${count}\n`);
         }
         else {
-            console.log(`--==>>    Collection is already initialized: ` + count);
+            console.log(`\n[--+--] Collection is already initialized: currnet coun = ${count}\n`);
         }
     } finally {
         await mongo.close();

@@ -3,8 +3,7 @@ const { Kafka, CompressionTypes, logLevel } = require('kafkajs')
 
 const host = process.env.HOST_IP || ip.address()
 
-
-async function sendMessage(str_message,topic,clientId) {
+async function sendMessage(str_message, topic,clientId) {
   if (clientId === null) {
     clientId= 'data_collecter-producer';
   }
@@ -23,7 +22,7 @@ async function sendMessage(str_message,topic,clientId) {
           compression: CompressionTypes.GZIP,
           messages: [{value: str_message}],
         })
-      return console.log(message)
+      return console.log(`\n[--+--] Sending for prediction: \n${JSON.stringify(message.value)}\n`);
     } catch (e) {
       return console.error(`[example/producer] ${e.message}`, e)
     }
