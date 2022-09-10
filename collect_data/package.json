@@ -17,6 +17,7 @@
     "mysql2": "^2.3.3",
     "node-geometry-library": "^1.2.6",
     "nodemon": "^2.0.19",
+    "socket.io": "^4.5.2",
     "sqlite3": "^5.0.11"
   }
 }

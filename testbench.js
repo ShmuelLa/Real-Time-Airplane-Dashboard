@@ -35,7 +35,10 @@ const exampple_doc =   {
     WEATHER_ARR_DEG: '23.5'
 }
 
-exampple_doc["PREDICTION"] = "No Delay";
+
+exampple_doc["PREDICTION"] = "Calculating";
+
+// exampple_doc["PREDICTION"] = "No Delay";
 redis.redisSetJson(exampple_doc.FLIGHT_NUMBER, exampple_doc)
     .then(redis.redisGetJson(exampple_doc.FLIGHT_NUMBER)
         .then(console.log));
