@@ -104,7 +104,7 @@ function consumePredict(localModel) {
                     function (error, prediction) {
                         in_json["PREDICTION"] = prediction.prediction;
                         console.log(`\nResulting prediction: ${prediction.prediction} for:\n${prediction}\n`);
-                        redis.redisSetJson(in_json.FLIGHT_NUMBER, in_json);
+                        redis.redisSetJson(in_json.FLIGHT_IATA_CODE, in_json);
                         sendMessage(prediction.prediction, 'prediction');
                     });
             },
