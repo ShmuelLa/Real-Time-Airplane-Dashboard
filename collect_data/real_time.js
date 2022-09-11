@@ -1,6 +1,6 @@
 const lib_complete_info = require("./complete_info_functions");
 // const producer = require("./producer");
-const my_sql = require("./my_sql");
+// const //my_sql = require(".///my_sql");
 
 const axios = require('axios');//get url
 const air_labs_API_KEY = '0b8736c6-beac-4b70-88a8-b984fb5edaf7'
@@ -12,7 +12,7 @@ const air_labs_API_KEY = '0b8736c6-beac-4b70-88a8-b984fb5edaf7'
 
 async function get_real_time_flights(arriving_flights,depurturing_flights) {
     try {
-        var con=my_sql.create_sql_connection();
+        // var con=my_sql.create_sql_connection();
         arr_web_time = []
         var response_arr = await axios.all([axios.get(`https://airlabs.co/api/v9/flights?_fields=
                                     airline_iata,
@@ -43,8 +43,8 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                                     &dep_iata=TLV&api_key=${air_labs_API_KEY}`)]);
                                    
         //console.log("r0:", response.data.response);
-        my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flights?`, "date_time": lib_complete_info.getNow(), "data": response_arr[0].data.response});
-        my_sql.add_row_info(con,{"webcite": 'https://airlabs.co/api/v9/schedules?', "date_time": lib_complete_info.getNow(), "data": response_arr[1].data.response});
+        // my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flights?`, "date_time": lib_complete_info.getNow(), "data": response_arr[0].data.response});
+        // my_sql.add_row_info(con,{"webcite": 'https://airlabs.co/api/v9/schedules?', "date_time": lib_complete_info.getNow(), "data": response_arr[1].data.response});
 
         console.log("r0:", response_arr[0].data.response);
         console.log("r1:", response_arr[01].data.response);
@@ -52,7 +52,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
         response_arr[0].data.response.forEach(async res => {
             try { 
                 var time_info = await axios.get(`https://airlabs.co/api/v9/flight?_fields=dep_time, dep_time_utc, dep_estimated_utc, dep_actual_utc,arr_time_utc,arr_estimated_utc,dep_delayed,delayed,arr_delayed,arr_actual_utc,&flight_iata=${res.flight_iata}&api_key=${air_labs_API_KEY}`);
-                my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flight?&flight_iata=${res.flight_iata}`, "date_time": lib_complete_info.getNow(), "data": time_info.data.response});
+                // //my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flight?&flight_iata=${res.flight_iata}`, "date_time": lib_complete_info.getNow(), "data": time_info.data.response});
                 time_info = time_info.data.response;
                 //console.log(time_info);
                 var flight_number = res.flight_number;
@@ -61,7 +61,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var is_summer_vacation = lib_complete_info.isSummerVacation(time_info.dep_time_utc);
                 var res_including_api_info = await lib_complete_info.isJewishIsraelyHolyday(time_info.dep_time_utc);
                 var is_holyday=res_including_api_info[0];
-                my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
+                //my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
                 console.log({"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
                 var year_month_day_day_of_the_week = lib_complete_info.getYearMonthDay(time_info.dep_time_utc);
                 var year = year_month_day_day_of_the_week[0];
@@ -72,7 +72,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var company_code = res.airline_iata;
                 res_including_api_info= await lib_complete_info.getCompanyName(res.airline_iata, res.airline_icao);
                 var company_name =res_including_api_info[0];
-                my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
+                //my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
 
 
                 var arrival_country_name = await lib_complete_info.getCountryNameForAirport(res.arr_iata, res.arr_icao);
@@ -82,8 +82,8 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var flight_type = lib_complete_info.distanseStatus(await lib_complete_info.distanceFromTLV(res.dep_iata, res.dep_icao));//need to caculate distance
                 var weather_dep_desc_desc_code_deg = await lib_complete_info.getWeatherForAirport(res.dep_iata, time_info.dep_time_utc, lib_complete_info.convertUtcStrToDateType(time_info.dep_time_utc).getHours());// need to pull from weather api
                 var weather_arr_desc_desc_code_deg = await lib_complete_info.getWeatherForAirport(res.arr_iata, time_info.arr_time_utc, lib_complete_info.convertUtcStrToDateType(time_info.arr_time_utc).getHours());
-                my_sql.add_row_info(con,{"webcite": weather_dep_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_dep_desc_desc_code_deg[4]});
-                my_sql.add_row_info(con,{"webcite": weather_arr_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_arr_desc_desc_code_deg[4]});
+                //my_sql.add_row_info(con,{"webcite": weather_dep_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_dep_desc_desc_code_deg[4]});
+                //my_sql.add_row_info(con,{"webcite": weather_arr_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_arr_desc_desc_code_deg[4]});
 
                 var punctuality = null;
                 if (res.status === "landed" && res.delayed === null) { punctuality = lib_complete_info.delayStatus(0); }
@@ -123,7 +123,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
           
                 var time_info = await axios.get(`https://airlabs.co/api/v9/flight?_fields=   dir,lat,alt,updated,status,delayed,
                 lng,dep_time, dep_time_utc, dep_estimated_utc, dep_actual_utc,arr_time_utc,arr_estimated_utc,dep_delayed,delayed,arr_delayed,arr_actual_utc,&flight_iata=${res.flight_iata}&api_key=${air_labs_API_KEY}`);
-                my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flight?&flight_iata=${res.flight_iata}`, "date_time": lib_complete_info.getNow(), "data": time_info.data.response});
+                //my_sql.add_row_info(con,{"webcite": `https://airlabs.co/api/v9/flight?&flight_iata=${res.flight_iata}`, "date_time": lib_complete_info.getNow(), "data": time_info.data.response});
                 time_info = time_info.data.response;
                 // console.log(time_info);
                 var flight_number = res.flight_number;
@@ -132,7 +132,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var is_summer_vacation = lib_complete_info.isSummerVacation(time_info.dep_time_utc);
                 var res_including_api_info = await lib_complete_info.isJewishIsraelyHolyday(time_info.dep_time_utc);
                 var is_holyday=res_including_api_info[0];
-                my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
+                //my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
 
 
                 var year_month_day_day_of_the_week = lib_complete_info.getYearMonthDay(time_info.dep_time_utc);
@@ -144,7 +144,7 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var company_code = res.airline_iata;
                 res_including_api_info= await lib_complete_info.getCompanyName(res.airline_iata, res.airline_icao);
                 var company_name =res_including_api_info[0];
-                my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
+                //my_sql.add_row_info(con,{"webcite": res_including_api_info[1], "date_time": lib_complete_info.getNow(), "data": res_including_api_info[2]});
 
                 var arrival_country_name = await lib_complete_info.getCountryNameForAirport(res.arr_iata, res.arr_icao);
                 var depurture_country_name = await lib_complete_info.getCountryNameForAirport(res.dep_iata, res.dep_icao);
@@ -153,8 +153,8 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var flight_type = lib_complete_info.distanseStatus(await lib_complete_info.distanceFromTLV(res.dep_iata, res.dep_icao));//need to caculate distance
                 var weather_dep_desc_desc_code_deg = await lib_complete_info.getWeatherForAirport(res.dep_iata, time_info.dep_time_utc, lib_complete_info.convertUtcStrToDateType(time_info.dep_time_utc).getHours());// need to pull from weather api
                 var weather_arr_desc_desc_code_deg = await lib_complete_info.getWeatherForAirport(res.arr_iata, time_info.arr_time_utc, lib_complete_info.convertUtcStrToDateType(time_info.arr_time_utc).getHours());
-                my_sql.add_row_info(con,{"webcite": weather_dep_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_dep_desc_desc_code_deg[4]});
-                my_sql.add_row_info(con,{"webcite": weather_arr_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_arr_desc_desc_code_deg[4]});
+                //my_sql.add_row_info(con,{"webcite": weather_dep_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_dep_desc_desc_code_deg[4]});
+                //my_sql.add_row_info(con,{"webcite": weather_arr_desc_desc_code_deg[3], "date_time": lib_complete_info.getNow(), "data": weather_arr_desc_desc_code_deg[4]});
 
                 var punctuality = null;
                 if (time_info.status === "landed" && time_info.delayed === null) { punctuality = lib_complete_info.delayStatus(0); }
