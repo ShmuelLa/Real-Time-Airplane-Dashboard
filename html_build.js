@@ -1,5 +1,13 @@
+try{
 const fs = require('fs');
-const redis = requite("./redis/redis_op");
+const redis = require("./redis/redis_op");
+}
+catch (e) {
+    console.log("\n\n\n");
+    console.error(e);
+    console.log("\n\n\n");
+}
+
 
 
 
