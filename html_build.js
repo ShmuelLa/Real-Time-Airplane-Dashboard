@@ -1,4 +1,5 @@
 const fs = require('fs');
+const redis = requite("./redis/redis_op");
 
 
 
@@ -29,9 +30,18 @@ async function generateHTML(obj, file, topic) {
             
         </body>
         </html>`
-        obj.forEach(dict => {
-            content1+= `<li>Flight IATA: ${dict.FLIGHT_IATA_CODE}, Prediction: ${dict.PREDICTION}</li>\n`
-        })
+        for (var entry of obj.entries()) {
+            // var key = entry[0];
+            // var value = entry[1];
+                redis.redisGetJson(entry[1].FLIGHT_IATA_CODE).then((res) => {
+                content1+= `<li>Flight IATA: ${entry[1].FLIGHT_IATA_CODE}, ${entry[1].ORIGIN_AIRPORT}->${entry[1].DESTINATION_AIRPORT} Prediction: ${res.PREDICTION}</li>\n`
+            })
+        }
+        // obj.forEach(dict => {
+        //     redis.redisGetJson(dict.FLIGHT_IATA_CODE).then((res) => {
+        //         content1+= `<li>Flight IATA: ${dict.FLIGHT_IATA_CODE}, ${dict.ORIGIN_AIRPORT}->${dict.DESTINATION_AIRPORT} Prediction: ${res.PREDICTION}</li>\n`
+        //     })
+        // })
         fs.writeFile(`./public/${file}.html`, content1+content2, function (err) {
             if (err) throw err;
             console.log('Saved!');
