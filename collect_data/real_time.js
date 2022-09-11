@@ -3,7 +3,7 @@ const lib_complete_info = require("./complete_info_functions");
 const my_sql = require("./my_sql");
 
 const axios = require('axios');//get url
-const air_labs_API_KEY = '6e6b9c47-3260-4d1e-909c-21375f29557d'
+const air_labs_API_KEY = '0b8736c6-beac-4b70-88a8-b984fb5edaf7'
 
 
 
@@ -112,7 +112,6 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                     "DEPARTURE_COUNTRY": depurture_country_name.country, "ARRIVAL_COUNTRY": arrival_country_name.country, "LAT": res.lat,"LNG": res.lng,"DIR":res.dir,"PREDICTION": 'Calculating'};
                     console.log(info);
                     await lib_complete_info.update_redis(info,arriving_flights,depurturing_flights);
-                    throw Error ('not');
             //    await producer.sendMessage(JSON.stringify(info),'real-time-data');
             }
             catch(err){

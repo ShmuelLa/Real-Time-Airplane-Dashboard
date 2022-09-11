@@ -2,7 +2,7 @@ const weather_api_API_KEY = "ca4ab3174e3340468f1192548220409"
 const redis_op = require("./../redis/redis_op");
 
 //const air_labs_API_KEY = require('./real_time.js').air_labs_API_KEY
-const air_labs_API_KEY ='6e6b9c47-3260-4d1e-909c-21375f29557d'
+const air_labs_API_KEY ='0b8736c6-beac-4b70-88a8-b984fb5edaf7'
 const dayjs = require('dayjs');
 const axios = require('axios');
 //-------DATES------:
@@ -30,16 +30,12 @@ function padTo2Digits(num) {
 }
 function formatDateYMD(day,month,year)
 {
-    
-
     return [
         year,
         padTo2Digits(month),
         padTo2Digits(day)
-
-        
+      
     ].join('-');
-
 }
 
 function formatDate(date) {
@@ -115,22 +111,23 @@ async function isJewishIsraelyHolyday(date) {
             if ((!element.includes('Parashat')) && (!element.includes('Chodesh'))) {
                 let first = element.split(' ')[0];
                 if (element.includes("Erev")) {//if erev chag
-                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response.data];
                 }
                 if (await checkPreviousDay(date, first))// check if yestorday is another day of the same chag 
                 {
                     console.log("True- first: " + element + " " + first)
-                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response.data];
                 }
                 if (await checkPreviousDay(date, "Erev")) {//check if yestorday is erev chag
-                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
+                    return [true,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response.data];
                 }
             }
         }
-        return [false,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response];
+        return [false,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",response.data];
 
     }
-    catch (err) { console.log(err); }
+    catch (err) { console.log(err); 
+        [null,"https://www.hebcal.com/converter?cfg=json&date=" + date + "&g2h=1&strict=1",{"value":"undefined"}]}
 
 }
 function getNow() {
@@ -263,6 +260,7 @@ async function getWeatherForAirport(iata_code, date, hour) {
     }
     catch (err) {
         console.log(err);
+        return [null,null,null,'https://api.weatherapi.com/v1/history.json',{"value":"undefined"}];
     }
 }
 
@@ -286,13 +284,15 @@ async function getCompanyName(iata, icao) {
             res = await axios.get(`https://airlabs.co/api/v9/airlines?icao_code=${icao}&api_key=${air_labs_API_KEY}`);
             compony_name = res.data.response[0].name;
         }
+        console.log("company name:   "+res.data.response[0])
     } catch (error) {
         console.log(error)
+        return [null,`https://airlabs.co/api/v9/airlines`,{"value":"undefined"}]
     }
 
 
     //console.log("company name: " + compony_name)
-    return [compony_name,`https://airlabs.co/api/v9/airlines`,res];
+    return [compony_name,`https://airlabs.co/api/v9/airlines`,res.data.response[0]];
 }
 
 
@@ -320,8 +320,9 @@ function getLatLonForAirport(iata_code, icao_code) {
       airports_code_string = icao_code;
     }
     else { reject(new Error("Hasn't recived any airport id.")); }
+    const db = new sqlite3.Database('C:/Users/Eitan/Desktop/project moriya/new_v/Real-Time-Airplane-Dashboard/collect_data/global_airports_sqlite.db');
 
-    const db = new sqlite3.Database('./global_airports_sqlite.db');
+    // const db = new sqlite3.Database('./global_airports_sqlite.db');
     db.get(`SELECT lat_decimal, lon_decimal FROM 'airports'  where "${airports_type_string}"='${airports_code_string}';`, function (err, row) {
       if (err) reject(err);
       resolve(row);
@@ -342,7 +343,7 @@ async function distanceFromTLV(iata_code, icao_code) {
   */
   var lat_lng=await getLatLonForAirport(iata_code, icao_code);
 
-  
+  console.log("lat_lng: "+lat_lng)
   //ISREAL- lat_decimal: 32.009, lon_decimal: 34.877
   const lat_TLV=32.009,lon_TLV=34.877;
 
@@ -376,8 +377,8 @@ function getCountryNameForAirport(iata_code, icao_code) {
       airports_code_string = icao_code;
     }
     else { reject(new Error("Hasn't recived any airport id.")); }
-
-    const db = new sqlite3.Database('./global_airports_sqlite.db');
+    const db = new sqlite3.Database('C:/Users/Eitan/Desktop/project moriya/new_v/Real-Time-Airplane-Dashboard/collect_data/global_airports_sqlite.db');
+    //const db = new sqlite3.Database('./global_airports_sqlite.db');
     db.get(`SELECT country FROM 'airports'  where "${airports_type_string}"='${airports_code_string}';`, function (err, row) {
       if (err) reject(err);
       resolve(row);
@@ -408,11 +409,6 @@ function distanseStatus(km) {
         return null;
     }
 }
-
-
-
-
-
 async function update_redis(flight_json, arriving_flights, depurturing_flights) {
     console.log("-----------redis---------------")
     if (flight_json.DESTINATION_AIRPORT_IATA == 'TLV')//landing
