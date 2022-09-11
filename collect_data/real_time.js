@@ -4,7 +4,6 @@ const my_sql = require("./my_sql");
 
 const axios = require('axios');//get url
 const air_labs_API_KEY = '6e6b9c47-3260-4d1e-909c-21375f29557d'
-var airlabs_webcite = "https://airlabs.co/"
 
 
 
@@ -168,7 +167,6 @@ async function get_real_time_flights(arriving_flights,depurturing_flights) {
                 var updated_dep_time = lib_complete_info.convertUtcToLoaclTime(time_info.dep_estimated_utc);
                 var actual_dep_time = lib_complete_info.convertUtcToLoaclTime(time_info.dep_actual_utc);
                 var actual_arr_time = lib_complete_info.convertUtcToLoaclTime(time_info.arr_actual_utc)
-                // var webcite = airlabs_webcite
 
                 var f_status = time_info.status;
 

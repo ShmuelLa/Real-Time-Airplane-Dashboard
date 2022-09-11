@@ -154,9 +154,12 @@ redis.redisInit();
 producer.sendMessage(JSON.stringify(arr_j2[0]), 'prediction_request');
 
 async function collectData() {
-    var arriving_flights = new Map();
-    var depurturing_flights = new Map();
-    await real_time_flights.get_real_time_flights(arriving_flights, depurturing_flights);
+    var arriving_flights = [];
+    var depurturing_flights = [];
+    real_time_flights.get_real_time_flights(arriving_flights, depurturing_flights).then(()=>{
+        html_generator.generateHTML(arriving_flights, "landing", "Awaiting Langing List");
+        html_generator.generateHTML(depurturing_flights, "takeoff", "Awaiting Take-Off List");
+});
     setInterval(async function () {
       await real_time_flights.get_real_time_flights(arriving_flights, depurturing_flights);
     }, 60000);
@@ -230,8 +233,7 @@ io.sockets.on('connection', function (socket){
         redis.redisGet('takeoff').then((res) => {
             io.sockets.emit('takeCount', {takeCount:res});
         })
-        html_generator.generateHTML(arr_j2, "landing", "Awaiting Langing List");
-        html_generator.generateHTML(arr_j2, "takeoff", "Awaiting Take-Off List");
+        
     }, 4000)
     socket.on('disconnect', function(){
         console.log('disconnect');
